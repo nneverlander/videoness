@@ -5,6 +5,12 @@ var dist_dir = path.resolve(__dirname, 'dist');
 var src_dir = path.resolve(__dirname, 'src');
 
 var config = {
+  // Makes sure errors in console map to the correct file
+  // and line number
+  devtool: 'eval',
+  // We change to normal source mapping
+  //devtool: 'source-map',
+
   entry: [
     'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
     'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
