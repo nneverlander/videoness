@@ -1,17 +1,42 @@
 html, body {
   font-family: "Consolas","monaco",monospace;
-  background-color: #fff;
+  background-color: white;
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
   text-align: justify;
-  font-size: 17px;
+  font-size: 1.3vw;
+}
+
+.vid-container {
+  width:70%;
+  margin:7% auto;
 }
 
 * {
   box-sizing: border-box;
 }
+
+video {
+  width:100%;
+  max-width:500px;
+  height:auto;
+}
+
+.video {
+  background: none;
+}
+
+.video-overlay__loader .video-spinner, .video-overlay__play .video-icon {
+  padding: 15px 20px;
+  border-radius: 5px;
+}
+
+/*.video-controls {
+  background-color: black;
+  width: 100%;
+}*/
 
 .jon {
   padding-top: 10%;
@@ -19,54 +44,59 @@ html, body {
   border: solid #B40101;
 }
 
-.sticky-header {
-  width: 100%;
-  height: 70px;
-  position: fixed;
-  top: 0;
+.vid-sticky-header {
   background-color: #B40101; /* todo red color*/
-  text-align: center;
   z-index: 1;
 }
 
-.sticky-header .title {
+.vid-sticky-header .vid-title {
   color: white;
   display: inline-block;
+  font-size: 1.6vw;
 }
 
-.sign-in {
+.vid-sign-up-login {
   color: white;
-  text-decoration: none;
-  float: right;
-  border-style: solid;
-  border-width: thin;
-  padding: 5px;
-  -webkit-margin-before: 1em;
-  -webkit-margin-after: 1em;
-  -webkit-margin-start: 0px;
-  -webkit-margin-end: 1em;
   transition: all .2s ease-in-out;
-  backface-visibility: hidden;
 }
 
-.sign-in:hover {
-  transform: scale(1.1);
+@media only screen and (min-width: 760px) {
+  .vid-sign-up-login:hover, .vid-sign-up-login:focus {
+    transform: scale(1.1);
+    color: #B40101;
+    background-color: white !important;
+  }
 }
 
-.main {
-  width:70%;
-  margin:10% auto;
+.vid-sign-up-login:hover, .vid-sign-up-login:focus {
+  color: #B40101;
+  background-color: white !important;
 }
 
-.btwText {
+.navbar-toggle .icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+  color: white;
+  border: thin solid;
+}
+
+.vid-btwText {
   padding-top: 10%;
+  text-align: left;
 }
 
-.main h2 {
+.vid-subtitle {
+  font-size: 1.5vw;
   color: #B40101;
 }
 
-.fb-button {
+.vid-main-title {
+  font-size: 1.7vw;
+}
+
+.vid-fb-button {
   display: inline-block;
   position: relative;
   height: 26px;
@@ -87,32 +117,4 @@ html, body {
   -ms-user-select: none;
   box-sizing: border-box;
 }
-
-/*.mdl-grid {
-  max-width: 1024px;
-  margin: auto;
-}
-
-.mdl-layout__header-row {
-  padding: 0;
-}
-
-.quickstart-user-details-container {
-  margin-top: 20px;
-  line-height: 25px;
-}
-
-#quickstart-sign-in-status {
-  font-weight: bold;
-}
-
-pre {
-  overflow-x: scroll;
-  line-height: 18px;
-}
-
-code {
-  white-space: pre-wrap;
-  word-break: break-all;
-}*/
 
