@@ -18,19 +18,19 @@ html, body {
   box-sizing: border-box;
 }
 
-video {
-  width:100%;
-  max-width:500px;
-  height:auto;
-}
-
-.video {
-  background: none;
-}
-
 .video-overlay__loader .video-spinner, .video-overlay__play .video-icon {
   padding: 15px 20px;
   border-radius: 5px;
+}
+
+.vid-video {
+  background: none;
+}
+
+.vid-video .video__el {
+  width:100%;
+  max-width:500px;
+  height:auto;
 }
 
 /*.video-controls {

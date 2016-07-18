@@ -24,7 +24,7 @@ var Header = React.createClass({
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav navbar-right">
-              <li><a href="#" className="vid-sign-up-login"><span className="glyphicon glyphicon-user"></span> Sign Up</a></li>
+              {/*<li><a href="#" className="vid-sign-up-login"><span className="glyphicon glyphicon-user"></span> Sign Up</a></li>*/}
               <li><a href="#" className="vid-sign-up-login"><span className="glyphicon glyphicon-log-in"></span> Login</a></li>
             </ul>
           </div>
@@ -64,7 +64,7 @@ var Ask = React.createClass({
         </p>
         <div className="row">
           <div className="col-md-5">
-            <Video ref="video" onLoadStart={this.setVolume} controls loop>
+            <Video className="vid-video" ref="video" onLoadStart={this.setVolume} controls loop>
               <source
                 src="https://firebasestorage.googleapis.com/v0/b/videoness-68f59.appspot.com/o/scottySire.mp4?alt=media&token=3577172d-15d5-463d-9a62-bd3f76c3e9c1"/>
             </Video>
