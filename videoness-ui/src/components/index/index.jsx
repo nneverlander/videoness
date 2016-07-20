@@ -5,11 +5,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Video from 'react-html5video';
+import Login from '../login/login';
 
 require('react-html5video/dist/ReactHtml5Video.css');
 require('./index.css');
 
 var Header = React.createClass({
+  loginClicked() {
+    this.props.loginClicked();
+  },
   render() {
     return (
       <nav className="navbar navbar-fixed-top vid-sticky-header">
@@ -24,8 +28,7 @@ var Header = React.createClass({
           </div>
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav navbar-right">
-              {/*<li><a href="#" className="vid-sign-up-login"><span className="glyphicon glyphicon-user"></span> Sign Up</a></li>*/}
-              <li><a href="#" className="vid-sign-up-login"><span className="glyphicon glyphicon-log-in"></span> Login</a></li>
+              <li><a data-toggle="modal" href="#loginModal" onClick={this.loginClicked} className="vid-sign-up-login"><span className="glyphicon glyphicon-log-in"></span> Login</a></li>
             </ul>
           </div>
         </div>
@@ -51,7 +54,7 @@ var Remlife = React.createClass({
 
 var Ask = React.createClass({
   /*setVolume() {
-   this.refs.video.setVolume(0.5);
+   this.scottySire.setVolume(0.5);
    },*/
   render() {
     var coolPlace = "<cool place>";
@@ -64,7 +67,7 @@ var Ask = React.createClass({
         </p>
         <div className="row">
           <div className="col-md-5">
-            <Video className="vid-video" ref="video" onLoadStart={this.setVolume} controls loop>
+            <Video className="vid-video" ref={(v) => this.scottySire = v} onLoadStart={this.setVolume} controls loop>
               <source
                 src="https://firebasestorage.googleapis.com/v0/b/videoness-68f59.appspot.com/o/scottySire.mp4?alt=media&token=3577172d-15d5-463d-9a62-bd3f76c3e9c1"/>
             </Video>
@@ -98,10 +101,22 @@ var Selfexp = React.createClass({
 });
 
 var Main = React.createClass({
+  getInitialState() {
+    return { showLogin: false };
+  },
+  loginClicked() {
+    this.setState({ showLogin: true });
+  },
+  loginClose() {
+    this.setState({ showLogin: false });
+  },
   render() {
     return (
       <div>
-        <Header/>
+        <Header loginClicked={this.loginClicked}/>
+        <div className={this.state.showLogin ? '' : 'hidden'}>
+          <Login loginClose={this.loginClose}/>
+        </div>
         <p className="vid-main-title">why did i build videoness?</p>
         <Remlife/>
         <Ask/>

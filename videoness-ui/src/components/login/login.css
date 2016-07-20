@@ -1,0 +1,56 @@
+.vid-fb-button {
+  display: block;
+  position: relative;
+  margin: auto;
+  height: 40px;
+  padding: 2px 11px 2px 10px;
+  border: 1px solid #264285;
+  border-radius: 3px;
+  background-color: #264285; /* todo fb button color */
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: baseline;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  box-sizing: border-box;
+}
+
+.or-login-with-email {
+  font-size: small;
+  display: block;
+  text-align: center;
+}
+
+.vid-input {
+  color: inherit;
+}
+
+.vid-login-btn {
+  background-color: #B40101;
+  color : white;
+}
+
+.vid-login-btn:hover, .vid-login-btn:focus {
+  outline: none;
+  color: #B40101;
+  background-color: white !important;
+}
+
+.tos {
+  font-size: small;
+}
+
+.tos a, .forgot-password, .forgot-password:hover {
+  color: #B40101;
+  font-size: small;
+  text-decoration: none;
+}
+
+.hidden {
+  display: none;
+}
