@@ -11,27 +11,11 @@ require('react-html5video/dist/ReactHtml5Video.css');
 require('./index.css');
 
 var Header = React.createClass({
-  loginClicked() {
-    this.props.loginClicked();
-  },
   render() {
     return (
       <nav className="navbar navbar-fixed-top vid-sticky-header">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-            </button>
-            <a className="navbar-brand vid-title" href="#">welcome to videoness</a>
-          </div>
-          <div className="collapse navbar-collapse" id="myNavbar">
-            <ul className="nav navbar-nav navbar-right">
-              <li><a data-toggle="modal" href="#loginModal" onClick={this.loginClicked} className="vid-sign-up-login"><span className="glyphicon glyphicon-log-in"></span> Login</a></li>
-            </ul>
-          </div>
-        </div>
+          <a className="navbar-brand vid-title" href="#">welcome to videoness</a>
+          <a data-toggle="modal" href="#loginModal" className="navbar-brand vid-login"><span className="glyphicon glyphicon-user"></span> login</a>
       </nav>
     );
   }
@@ -104,19 +88,11 @@ var Main = React.createClass({
   getInitialState() {
     return { showLogin: false };
   },
-  loginClicked() {
-    this.setState({ showLogin: true });
-  },
-  loginClose() {
-    this.setState({ showLogin: false });
-  },
   render() {
     return (
       <div>
-        <Header loginClicked={this.loginClicked}/>
-        <div className={this.state.showLogin ? '' : 'hidden'}>
-          <Login loginClose={this.loginClose}/>
-        </div>
+        <Header/>
+        <Login/>
         <p className="vid-main-title">why did i build videoness?</p>
         <Remlife/>
         <Ask/>

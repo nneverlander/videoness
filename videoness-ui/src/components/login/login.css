@@ -9,7 +9,6 @@
   background-color: #264285; /* todo fb button color */
   cursor: pointer;
   color: white;
-  font-size: 14px;
   line-height: 20px;
   white-space: nowrap;
   text-align: center;
@@ -17,22 +16,33 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  box-sizing: border-box;
+  font-size: 0.95vw;
 }
 
-.or-login-with-email {
-  font-size: small;
+.vid-login-close-btn {
+  color: #B40101;
+}
+
+.vid-login-close-btn:hover {
+  color: #B40101;
+  opacity: 1;
+}
+
+.vid-or-login-with-email {
   display: block;
   text-align: center;
+  font-size: 0.95vw;
 }
 
 .vid-input {
   color: inherit;
+  font-size: 0.95vw;
 }
 
 .vid-login-btn {
   background-color: #B40101;
   color : white;
+  font-size: 0.95vw;
 }
 
 .vid-login-btn:hover, .vid-login-btn:focus {
@@ -41,16 +51,28 @@
   background-color: white !important;
 }
 
-.tos {
-  font-size: small;
+.vid-tos {
+  font-size: 0.95vw;
 }
 
-.tos a, .forgot-password, .forgot-password:hover {
+.vid-tos a, .vid-forgot-password, .vid-forgot-password:hover {
   color: #B40101;
-  font-size: small;
   text-decoration: none;
+  font-size: 0.95vw;
 }
 
-.hidden {
+.vid-invalid-input {
+  z-index: 2;
+  position: absolute;
+  right: 0;
+  transform: translate(-20px, -30px);
+  color: white;
+  background-color: rgba(180,1,1,0.85);
+  font-size: 0.8vw;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.vid-hidden {
   display: none;
 }
