@@ -16,7 +16,7 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  font-size: 0.95vw;
+  font-size: small;
 }
 
 .vid-login-close-btn {
@@ -31,18 +31,18 @@
 .vid-or-login-with-email {
   display: block;
   text-align: center;
-  font-size: 0.95vw;
+  font-size: small;
 }
 
 .vid-input {
   color: inherit;
-  font-size: 0.95vw;
+  font-size: small;
 }
 
 .vid-login-btn {
   background-color: #B40101;
   color : white;
-  font-size: 0.95vw;
+  font-size: small;
 }
 
 .vid-login-btn:hover, .vid-login-btn:focus {
@@ -52,13 +52,13 @@
 }
 
 .vid-tos {
-  font-size: 0.95vw;
+  font-size: small;
 }
 
 .vid-tos a, .vid-forgot-password, .vid-forgot-password:hover {
   color: #B40101;
   text-decoration: none;
-  font-size: 0.95vw;
+  font-size: small;
 }
 
 .vid-invalid-input {
@@ -68,7 +68,7 @@
   transform: translate(-20px, -30px);
   color: white;
   background-color: rgba(180,1,1,0.85);
-  font-size: 0.8vw;
+  font-size: x-small;
   padding: 5px;
   border-radius: 5px;
 }
