@@ -1,17 +1,13 @@
 var webpack = require('webpack');
 var path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var dist_dir = path.resolve(__dirname, 'dist');
 var src_dir = path.resolve(__dirname, 'src');
 
 var config = {
-  // Makes sure errors in console map to the correct file
-  // and line number
-  devtool: 'eval',
-
+  //devtool: "source-map",
   entry: [
-    'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
-    'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-     src_dir + '/components/index/index.jsx',
+    src_dir + '/components/index/index.jsx',
   ],
   output: {
     path: dist_dir,
@@ -23,15 +19,20 @@ var config = {
       {
         test: /\.js?/,
         include: src_dir,
-        loaders: ['react-hot', 'babel']
+        loaders: ['babel']
       },
-      {test: /\.css$/, loader: 'style-loader!css-loader'},
+      {test: /\.css$/, loader: ExtractTextPlugin.extract('css-loader')},
       {test: /\.png$/, loader: "url-loader?limit=100000"},
       {test: /\.jpg$/, loader: "file-loader"}
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new ExtractTextPlugin('Videoness.css'),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': '"production"'
+      }
+    })
   ]
 
 };

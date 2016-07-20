@@ -1,5 +1,6 @@
+/* laptops */
 html, body {
-  font-family: "Consolas","monaco",monospace;
+  font-family: "Consolas", "monaco", monospace;
   background-color: white;
   margin: 0;
   padding: 0;
@@ -10,8 +11,8 @@ html, body {
 }
 
 .vid-container {
-  width:70%;
-  margin:7% auto;
+  width: 70%;
+  margin: 7% auto;
 }
 
 * {
@@ -28,16 +29,15 @@ html, body {
 }
 
 .vid-video .video__el {
-  width:100%;
-  max-width:500px;
-  height:auto;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
 }
 
 /*.video-controls {
   background-color: black;
   width: 100%;
 }*/
-
 .jon {
   padding-top: 10%;
   height: 400px;
@@ -81,4 +81,20 @@ html, body {
 
 .vid-main-title {
   font-size: x-large;
+}
+
+/* phones */
+@media screen and (max-width: 360px) {
+}
+
+/* tablets */
+@media screen and (max-width: 1024px) {
+  html, body {
+    text-align: left;
+  }
+
+  .vid-container {
+    width:70%;
+    margin:15% auto;
+  }
 }

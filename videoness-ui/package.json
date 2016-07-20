@@ -5,8 +5,7 @@
   "main": "dist/Videoness.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "webpack -d --watch --hot",
-    "build": "webpack -p"
+    "build": "webpack -p --config webpack.production.config.js"
   },
   "repository": {
     "type": "git",
