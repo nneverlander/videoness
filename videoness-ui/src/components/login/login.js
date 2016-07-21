@@ -2,28 +2,43 @@
  * Created by adi on 7/17/16.
  */
 import React from 'react';
+import ReactDOM from 'react-dom';
+import Main from '../main/main';
 require('./login.css')
+require("firebase/auth");
+
+var firebase = require("firebase/app");
+
+var config = {
+  apiKey: "AIzaSyAfWqymZlexJoXGv34k-JBmMaiR6VmZY9o",
+  authDomain: "videoness-68f59.firebaseapp.com",
+  databaseURL: "https://videoness-68f59.firebaseio.com",
+  storageBucket: "videoness-68f59.appspot.com"
+};
+firebase.initializeApp(config);
 
 var Login = React.createClass({
-  getInitialState: function () {
+  getInitialState() {
     return {
-      email: this.props.email || '',
-      pass: this.props.pass || '',
+      email: '',
+      pass: '',
       invalidEmail: false,
       invalidPass: false,
-      wrongCreds: false
+      emailPassMatch: true
     };
   },
-  setEmail: function (event) {
+  setEmail(event) {
     this.setState({
       email: event.currentTarget.value,
-      invalidEmail: false
+      invalidEmail: false,
+      emailPassMatch: true
     });
   },
-  setPass: function (event) {
+  setPass(event) {
     this.setState({
       pass: event.currentTarget.value,
-      invalidPass: false
+      invalidPass: false,
+      emailPassMatch: true
     });
   },
   validate(e) {
@@ -35,9 +50,9 @@ var Login = React.createClass({
         invalidEmail: true
       });
     } else {
-        this.setState({
-          invalidEmail: false
-        });
+      this.setState({
+        invalidEmail: false
+      });
     }
     var pass = this.pass.value;
     if (!(pass.length > 6)) {
@@ -45,12 +60,52 @@ var Login = React.createClass({
         invalidPass: true
       });
     } else {
-        this.setState({
-          invalidPass: false
-        });
+      this.setState({
+        invalidPass: false
+      });
     }
     if (!(this.state.invalidEmail || this.state.invalidPass)) {
-      // submit to server
+      this.loginWithEmail();
+
+    }
+  },
+  loginWithEmail() {
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass).then((result) => {
+      Login.renderMainPage(result)
+    }).catch((error) => {
+      var errorCode = error.code;
+      if (errorCode === 'auth/wrong-password' || errorCode === 'auth/invalid-email') {
+        this.setState({
+          emailPassMatch: false
+        });
+      } else if (errorCode === 'auth/user-not-found') {
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass).then((result) => {
+          Login.renderMainPage(result)
+        }).catch((error) => {
+          console.error(error);
+        });
+      } else {
+        console.error(error);
+      }
+    });
+  },
+  loginWithFb() {
+    var provider = new firebase.auth.FacebookAuthProvider();
+    // provider.addScope('user_birthday'); todo more scopes like birthday
+    firebase.auth().signInWithPopup(provider).then((result) => {
+      Login.renderMainPage(result)
+    }).catch((error) => {
+      console.error(error);
+    });
+  },
+  statics: {
+    renderMainPage(result) {
+      window.user = result;
+      $("#loginModal").modal("hide");
+      ReactDOM.render(
+        <Main/>,
+        document.getElementById('container')
+      );
     }
   },
   render(){
@@ -60,7 +115,7 @@ var Login = React.createClass({
           <div className="modal-content">
             <div className="modal-header">
               <button className="close vid-login-close-btn" data-dismiss="modal">&times;</button>
-              <button className="vid-fb-button">continue with facebook</button>
+              <button onClick={this.loginWithFb} className="vid-fb-button">continue with facebook</button>
             </div>
             <div className="modal-body">
               <p className="vid-or-login-with-email">or login with email and password</p>
@@ -75,6 +130,7 @@ var Login = React.createClass({
                 <span className={this.state.invalidPass ? 'vid-invalid-input vid-invalid-input-shake' : 'hidden'}>password must contain atleast 7 characters</span>
                 <br/>
                 <button type="submit" onClick={this.validate} className="btn btn-default vid-login-btn">login</button>
+                <span className={this.state.emailPassMatch ? "vid-hidden" : "vid-email-pass-match-error"}>email and password do not match</span>
               </form>
             </div>
             <div className="modal-footer">

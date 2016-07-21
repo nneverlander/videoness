@@ -55,10 +55,11 @@
   font-size: small;
 }
 
-.vid-tos a, .vid-forgot-password, .vid-forgot-password:hover {
+.vid-tos a, .vid-forgot-password, .vid-forgot-password:hover, .vid-forgot-password:focus {
   color: #B40101;
   text-decoration: none;
   font-size: small;
+  outline: none;
 }
 
 .vid-invalid-input {
@@ -75,4 +76,10 @@
 
 .vid-hidden {
   display: none;
+}
+
+.vid-email-pass-match-error {
+  color: #B40101;
+  font-size: small;
+  margin-left: 10px;
 }

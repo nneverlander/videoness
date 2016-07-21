@@ -9,6 +9,7 @@ import Login from '../login/login';
 
 require('react-html5video/dist/ReactHtml5Video.css');
 require('./index.css');
+require("firebase/auth");
 
 var Header = React.createClass({
   render() {
@@ -84,10 +85,7 @@ var Selfexp = React.createClass({
   }
 });
 
-var Main = React.createClass({
-  getInitialState() {
-    return { showLogin: false };
-  },
+var Index = React.createClass({
   render() {
     return (
       <div>
@@ -103,10 +101,22 @@ var Main = React.createClass({
   }
 });
 
-module.exports = Main;
+function initApp() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      Login.renderMainPage(user);
+    } else {
+      ReactDOM.render(
+        <Index/>,
+        document.getElementById('container')
+      );
+    }
+  });
+}
 
-ReactDOM.render(
-  <Main/>,
-  document.getElementById('container')
-);
+window.onload = function () {
+  initApp();
+};
+
+module.exports = Index;
 

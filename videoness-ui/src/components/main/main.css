@@ -1,0 +1,11 @@
+.vid-logout-btn {
+  background-color: #B40101;
+  color : white;
+  font-size: small;
+}
+
+.vid-logout-btn:hover, .vid-logout-btn:focus {
+  outline: none;
+  color: #B40101;
+  background-color: white !important;
+}
