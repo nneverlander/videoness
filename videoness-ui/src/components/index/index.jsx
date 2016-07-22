@@ -9,7 +9,16 @@ import Login from '../login/login';
 
 require('react-html5video/dist/ReactHtml5Video.css');
 require('./index.css');
-require("firebase/auth");
+
+var firebase = require('firebase/app');
+
+var config = {
+  apiKey: "AIzaSyAfWqymZlexJoXGv34k-JBmMaiR6VmZY9o",
+  authDomain: "videoness-68f59.firebaseapp.com",
+  databaseURL: "https://videoness-68f59.firebaseio.com",
+  storageBucket: "videoness-68f59.appspot.com"
+};
+firebase.initializeApp(config);
 
 var Header = React.createClass({
   render() {
@@ -29,7 +38,8 @@ var Remlife = React.createClass({
         <p className="vid-subtitle">to vividly remember life</p>
         <p>
           what were you doing three years ago on this day? right, nobody remembers. but what if you could?
-          videoness helps you record your life and makes it searchable. never forget what happened on July 22 2004.
+          videoness helps you record your life in videos and makes it searchable. think snapchat stories on steroids.
+          never forget what happened on July 22 2004. let everyday of your life have a page in history.
         </p>
         <br/>
       </div>
@@ -42,13 +52,12 @@ var Ask = React.createClass({
    this.scottySire.setVolume(0.5);
    },*/
   render() {
-    var coolPlace = "<cool place>";
     return (
       <div>
-        <p className="vid-subtitle">to see what everyone is upto</p>
+        <p className="vid-subtitle">to ask your friends do funny stuff</p>
         <p>
-          bored? curious? need info? see what friends are doing, see what is going on at {coolPlace},
-          ask friends to do something that you want to see. like this:
+          you like watching videos shared by your friends. but you don't know what they will share. with videoness, you can
+          ask them to do something that you want to see. like this:
         </p>
         <div className="row">
           <div className="col-md-5">
@@ -77,8 +86,7 @@ var Selfexp = React.createClass({
         <p className="vid-subtitle">to express better</p>
         <p>
           i don't like typing (can't even touch type), text is a poor form of self expression. i want my status updates
-          and reactions to
-          be rich and fun. i want everything in video. i want a social profile of a new kind - one that has only video.
+          and reactions to be rich and fun. i want everything in video. i want a social profile of a new kind - one that has only video.
         </p>
       </div>
     );

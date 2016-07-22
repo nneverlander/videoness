@@ -1,6 +1,11 @@
+/*@import 'https://fonts.googleapis.com/css?family=Varela+Round';
+@import url(http://db.onlinewebfonts.com/c/c39dc1716db69a2e7a43326eab745330?family=AvenirNextRoundedW01-Demi);
+@import url(http://db.onlinewebfonts.com/c/0ebd0f0fd5bd2e93381bab865f02db47?family=AvenirNextRoundedW01-Md);*/
 /* laptops */
 html, body {
   font-family: "Consolas", "monaco", monospace;
+  /*font-family: 'Varela Round', sans-serif;
+  font-family: 'AvenirNextRoundedW01-Md', sans-serif;*/
   background-color: white;
   margin: 0;
   padding: 0;

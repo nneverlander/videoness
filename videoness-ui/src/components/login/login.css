@@ -41,7 +41,7 @@
 
 .vid-login-btn {
   background-color: #B40101;
-  color : white;
+  color: white;
   font-size: small;
 }
 
@@ -59,7 +59,8 @@
   color: #B40101;
   text-decoration: none;
   font-size: small;
-  outline: none;
+  /*outline: none;*/
+  cursor: pointer;
 }
 
 .vid-invalid-input {
@@ -68,7 +69,7 @@
   right: 0;
   transform: translate(-20px, -30px);
   color: white;
-  background-color: rgba(180,1,1,0.85);
+  background-color: rgba(180, 1, 1, 0.85);
   font-size: x-small;
   padding: 5px;
   border-radius: 5px;
@@ -82,4 +83,88 @@
   color: #B40101;
   font-size: small;
   margin-left: 10px;
+}
+
+.vid-reset-email-sent {
+  font-size: small;
+}
+
+.vid-forgot-password-modal {
+  margin-top: 20%;
+}
+
+.vid-spinner-bg {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 3;
+  color: white;
+  border-radius: 5px;
+}
+
+#circularG {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+/* sweet alert overrides */
+
+.sweet-alert {
+  font-family: "Consolas", "monaco", monospace;
+  text-align: left;
+}
+
+.sweet-alert p {
+  color: black;
+}
+
+.sweet-alert button {
+  display: inline-block;
+  margin-left: auto;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #B40101 none !important;
+  color: white;
+  font-size: small;
+}
+
+.sweet-alert button:hover, .sweet-alert button:focus {
+  outline: none;
+  color: #B40101;
+  background-color: white !important;
+}
+
+/* phones */
+@media screen and (max-width: 360px) {
+  .vid-invalid-input {
+    position: static;
+    color: white;
+    background-color: rgba(180, 1, 1, 0.85);
+    font-size: x-small;
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  .vid-input {
+    margin-top: 10px;
+  }
+
+  .vid-login-btn {
+    margin-top: 10px;
+  }
 }
