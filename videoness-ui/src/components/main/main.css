@@ -1,6 +1,10 @@
+.vid-sticky-header {
+  background-color: #B40101; /* todo red color*/
+}
+
 .vid-logout-btn {
   background-color: #B40101;
-  color : white;
+  color: white;
   font-size: small;
 }
 
@@ -8,4 +12,129 @@
   outline: none;
   color: #B40101;
   background-color: white !important;
+}
+
+.vid-search-input {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 10px;
+  height: 70%;
+  margin: auto;
+  float: left;
+  width: 30%;
+  padding: 1px;
+  border: solid 1px #E4E4E4;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.vid-search-input input {
+  border: 0;
+  box-shadow: none;
+  color: black;
+}
+
+.vid-search-input button {
+  margin: 2px 0 0 0;
+  background: none;
+  box-shadow: none;
+  border: 0;
+  color: black;
+  padding: 0 8px 0 10px;
+  border-left: solid 1px #ccc;
+}
+
+.vid-search-input button:hover {
+  border: 0;
+  box-shadow: none;
+  border-left: solid 1px #ccc;
+}
+
+.vid-user-settings {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  height: 70%;
+  margin: auto;
+  float: right;
+  width: 20%;
+}
+
+.vid-menu-icon-container {
+  float: right;
+  cursor: pointer;
+}
+
+.vid-menu-icon {
+  width: 30px;
+  height: 3px;
+  background-color: white;
+  margin: 6px 0;
+  border-radius: 2px;
+}
+
+.vid-menu-content {
+  margin-top : 5px;
+  visibility: hidden;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  min-width: 140px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  opacity: 0;
+  transition: all 0.3s ease-in-out 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s;
+}
+
+.vid-menu-content:after {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 0 15px 15px;
+  border-color: white transparent;
+  display: block;
+  width: 0;
+  z-index: 1;
+  top: -5px;
+  right: 0;
+}
+
+.vid-menu-content a {
+  cursor: pointer;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: right;
+}
+
+.vid-menu-content a:hover, .vid-menu-content a:hover .vid-glyphicon {
+  background-color: #B40101;
+  color: white;
+}
+
+.vid-menu-icon-container:hover .vid-menu-content {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.vid-search-icon:hover, .vid-search-icon:focus, .vid-search-icon:active {
+  background-color: #B40101;
+}
+
+.vid-video-inst-container {
+  width: 100%;
+}
+
+.vid-video-inst {
+  transform: scaleX(6);
+}
+
+.vid-glyphicon {
+  font-size: large;
+  color: #B40101;
+  float: left;
 }

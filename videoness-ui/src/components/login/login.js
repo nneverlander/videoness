@@ -39,7 +39,8 @@ var Login = React.createClass({
   setResetEmail(event) {
     this.setState({
       resetEmail: event.currentTarget.value,
-      invalidResetEmail: false
+      invalidResetEmail: false,
+      resetEmailNotFound: false
     });
   },
   setEmail(event) {

@@ -24,8 +24,8 @@ var Header = React.createClass({
   render() {
     return (
       <nav className="navbar navbar-fixed-top vid-sticky-header">
-          <a className="navbar-brand vid-title" href="#">welcome to videoness</a>
-          <a data-toggle="modal" href="#loginModal" className="navbar-brand vid-login"><span className="glyphicon glyphicon-user"></span> login</a>
+        <a className="navbar-brand vid-title" href="#">let this day have a page in history</a>
+        <a data-toggle="modal" href="#loginModal" className="navbar-brand vid-login"><span className="glyphicon glyphicon-user"></span> login</a>
       </nav>
     );
   }
@@ -61,7 +61,7 @@ var Ask = React.createClass({
         </p>
         <div className="row">
           <div className="col-md-5">
-            <Video className="vid-video" ref={(v) => this.scottySire = v} onLoadStart={this.setVolume} controls loop>
+            <Video id="v" className="vid-video" ref={(v) => this.scottySire = v} onLoadStart={this.setVolume} controls loop>
               <source
                 src="https://firebasestorage.googleapis.com/v0/b/videoness-68f59.appspot.com/o/scottySire.mp4?alt=media&token=3577172d-15d5-463d-9a62-bd3f76c3e9c1"/>
             </Video>
