@@ -64,8 +64,8 @@ var Main = React.createClass({
 
   },
   shareOnTwitter(url) {
-    var width = screen.width/2;
-    var height = screen.height/2;
+    var width = screen.width/3;
+    var height = screen.height/3;
     var left = (screen.width/2)-(width/2);
     var top = (screen.height/2)-(height/2);
     var popup = window.open("https://twitter.com/share?url=https://videoness-68f59.firebaseapp.com&text=This is awesome!", "", "width="+width+", height="+height+", top="+top+", left="+left);
