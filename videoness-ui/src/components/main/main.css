@@ -76,7 +76,7 @@
 }
 
 .vid-menu-content {
-  margin-top : 5px;
+  margin-top: 5px;
   visibility: hidden;
   position: absolute;
   right: 0;
@@ -107,7 +107,7 @@
   padding: 12px 16px;
   text-decoration: none;
   display: block;
-  text-align: right;
+  text-align: left;
 }
 
 .vid-menu-content a:hover, .vid-menu-content a:hover .vid-glyphicon {
@@ -127,14 +127,56 @@
 
 .vid-video-inst-container {
   width: 100%;
-}
-
-.vid-video-inst {
-  transform: scaleX(6);
+  position: relative;
 }
 
 .vid-glyphicon {
   font-size: large;
   color: #B40101;
   float: left;
+}
+
+.vid-filler {
+  height: 40px;
+}
+
+.video-overlay__loader .video-spinner, .video-overlay__play .video-icon {
+  padding: 15px 20px;
+  border-radius: 5px;
+}
+
+.vid-video-inst .video__el {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+
+.vid-overlay-sidebar {
+  position: absolute;
+  /*padding: 8px 8px 0 8px;*/
+  border-radius: 3px;
+  right: 50%;
+  top: 50%;
+  /*background-color: rgba(0,0,0,0.8);*/
+  opacity: 0;
+  transition: opacity 0.2s ease-in;
+}
+
+.vid-video-inst-container:hover .vid-overlay-sidebar {
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+.vid-overlay-sidebar-button {
+  width: 32px;
+  cursor: pointer;
+  display: block;
+  margin-bottom: 5px;
+  border-radius: 3px;
+}
+
+.vid-sidebar-fav-icon {
+  font-size: 32px;
+  color: #B40101;
+  cursor: pointer;
 }
