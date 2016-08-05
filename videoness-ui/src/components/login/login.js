@@ -3,7 +3,12 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Router, Route, browserHistory, hashHistory} from 'react-router';
 import Main from '../main/main';
+import Timeline from '../timeline/timeline';
+import Places from '../places/places';
+import Favs from '../favs/favs';
+import Friends from '../friends/friends';
 
 require('../common/spinner.css');
 require('./login.css');
@@ -176,10 +181,17 @@ var Login = React.createClass({
   },
   statics: {
     renderMainPage(result) {
-      window.user = result;
+      window.user = result; //todo logged in user info
       $("#loginModal").modal("hide");
       ReactDOM.render(
-        <Main/>,
+        <Router history={browserHistory}>
+          <Route path="/" component={Main}/>
+          <Route path="/timeline" component={Timeline}/>
+          <Route path="/places" component={Places}/>
+          <Route path="/favs" component={Favs}/>
+          <Route path="/friends" component={Friends}/>
+          <Route path="*" component={Main}/>
+        </Router>,
         document.getElementById('container')
       );
     }

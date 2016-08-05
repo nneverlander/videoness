@@ -1,6 +1,8 @@
 /**
  * Created by adi on 7/10/16.
  */
+
+//todo this file needs to be changed
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
@@ -8,11 +10,11 @@ var config = require('./webpack.config');
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   contentBase: config.output.path,
-  hot: true,
+  hot: false,
   historyApiFallback: true,
-}).listen(3000, 'localhost', function (err, result) {
+}).listen(80, 'localhost', function (err, result) {
   if (err) {
     return console.log(err);
   }
-  console.log('Listening at http://localhost:3000/');
+  console.log('Listening at http://localhost/');
 });

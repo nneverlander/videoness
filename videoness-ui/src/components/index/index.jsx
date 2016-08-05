@@ -25,7 +25,8 @@ var Header = React.createClass({
     return (
       <nav className="navbar navbar-fixed-top vid-sticky-header">
         <a className="navbar-brand vid-title" href="#">let this day have a beautiful page in history</a>
-        <a data-toggle="modal" href="#loginModal" className="navbar-brand vid-login"><span className="glyphicon glyphicon-user"></span> login</a>
+        <a data-toggle="modal" href="#loginModal" className="navbar-brand vid-login"><span
+          className="glyphicon glyphicon-user"></span> login</a>
       </nav>
     );
   }
@@ -56,7 +57,8 @@ var Ask = React.createClass({
       <div>
         <p className="vid-subtitle">to ask your friends do funny stuff</p>
         <p>
-          you like watching videos shared by your friends. but you don't know what they will share. with videoness, you can
+          you like watching videos shared by your friends. but you don't know what they will share. with videoness, you
+          can
           ask them to do something that you want to see. like this:
         </p>
         <div className="row">
@@ -86,7 +88,8 @@ var Selfexp = React.createClass({
         <p className="vid-subtitle">to express better</p>
         <p>
           i don't like typing (can't even touch type), text is a poor form of self expression. i want my status updates
-          and reactions to be rich and fun. i want everything in video. i want a social profile of a new kind - one that has only video.
+          and reactions to be rich and fun. i want everything in video. i want a social profile of a new kind - one that
+          has only video.
         </p>
       </div>
     );
