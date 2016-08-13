@@ -13,8 +13,6 @@ import Friends from '../friends/friends';
 require('../common/spinner.css');
 require('./login.css');
 
-var firebase = require('firebase/app');
-
 var Login = React.createClass({
   getInitialState() {
     return {

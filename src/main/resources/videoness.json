@@ -1,0 +1,48 @@
+{
+  "userProfiles": {
+    "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2": {
+      "name": "Adi Kancherla",
+      "friends": {},
+      "videos": {},
+      "favs": {},
+      "follows": {},
+      "isActive": true
+    }
+  },
+  "videoMetadata": {
+    "scottySire": {
+      "uid": "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2",
+      "location": "",
+      "fbShares": 1,
+      "twtrShares": 1,
+      "favs": 1,
+      "timelineAdds": 1,
+      "type": "individual",
+      "timestamp": 123,
+      "duration": 120,
+      "resolution": "720p",
+      "aspectRatio": "16:9",
+      "plays": 12,
+      "privacy": "all"
+    }
+  },
+  "userStats": {
+    "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2": {
+      "lastActive": 123,
+      "lastVideoPosted": 123,
+      "avgVideosCreatedPerDay": 123,
+      "pagesInHistory": 120,
+      "daysSinceJoining": 120,
+      "numFriends": 20,
+      "numVideosCreated": 40,
+      "numFollowed": 20,
+      "numFavs": 20,
+      "numSharesOnFb": 20,
+      "numSharesOnTwtr": 20,
+      "numTimelineAdds": 20,
+      "numPrivateVideos": 20,
+      "numPublicVideos": 10,
+      "numFriendsOnlyVideos": 10
+    }
+  }
+}

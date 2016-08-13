@@ -1,6 +1,22 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "userProfiles": {
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "$uid === auth.uid"
+      }
+    },
+    "userStats": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid",
+        ".indexOn": ["pagesInHistory"]
+      }
+    },
+    "videoMetadata": {
+      ".read": false,
+      ".write": "auth != null",
+      ".indexOn": ["uid", "location", "timestamp"]
+    }
   }
 }

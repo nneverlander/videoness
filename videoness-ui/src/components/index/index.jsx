@@ -6,19 +6,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Video from 'react-html5video';
 import Login from '../login/login';
+import fbApp from '../common/fbApp';
 
 require('react-html5video/dist/ReactHtml5Video.css');
 require('./index.css');
-
-var firebase = require('firebase/app');
-
-var config = {
-  apiKey: "AIzaSyAfWqymZlexJoXGv34k-JBmMaiR6VmZY9o",
-  authDomain: "videoness-68f59.firebaseapp.com",
-  databaseURL: "https://videoness-68f59.firebaseio.com",
-  storageBucket: "videoness-68f59.appspot.com"
-};
-firebase.initializeApp(config);
 
 var Header = React.createClass({
   render() {
@@ -65,7 +56,7 @@ var Ask = React.createClass({
           <div className="col-md-5">
             <Video className="vid-video" ref={(v) => this.scottySire = v} onLoadStart={this.setVolume} controls loop>
               <source
-                src="https://firebasestorage.googleapis.com/v0/b/videoness-68f59.appspot.com/o/scottySire.mp4?alt=media&token=3577172d-15d5-463d-9a62-bd3f76c3e9c1"/>
+                src="https://firebasestorage.googleapis.com/v0/b/videoness-68f59.appspot.com/o/scottySire.mp4?alt=media&token=bdea9c98-80f6-4825-82db-45cb9f503fcd"/>
             </Video>
           </div>
           <p className="vid-btwText col-md-2">and videoness turns it into awesomeness:</p>
@@ -113,7 +104,7 @@ var Index = React.createClass({
 });
 
 function initApp() {
-  firebase.auth().onAuthStateChanged((user) => {
+  fbApp.auth().onAuthStateChanged((user) => {
     if (user) {
       Login.renderMainPage(user);
     } else {
@@ -127,6 +118,7 @@ function initApp() {
 
 window.onload = function () {
   initApp();
+  $('[data-toggle="tooltip"]').tooltip();
 };
 
 module.exports = Index;

@@ -12,6 +12,9 @@ var Header = React.createClass({
     return (
       <div>
         <nav className="navbar navbar-fixed-top vid-sticky-header">
+          <div className="vid-home">
+            <Link to="/">Home</Link>
+          </div>
           <div className="vid-search-input">
             <div className="input-group">
               <input type="text" className="form-control input-sm" placeholder="search..."/>

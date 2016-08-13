@@ -38,8 +38,61 @@
   border-radius: 3px;
 }
 
+.vid-overlay-sidebar-button:hover {
+  transform: scale(1.1);
+}
+
 .vid-sidebar-fav-icon {
   font-size: 32px;
   color: #B40101;
   cursor: pointer;
+  display: block;
 }
+
+.vid-sidebar-fav-icon:hover {
+  color: white;
+  transform: scale(1.1);
+}
+
+.vid-sidebar-faved-icon {
+  font-size: 32px;
+  color: white;
+  cursor: pointer;
+  display: block;
+}
+
+.vid-sidebar-faved-icon:hover {
+  color: #B40101;
+  transform: scale(1.1);
+}
+
+.vid-sidebar-plus-icon {
+  font-size: 32px;
+  color: #B40101;
+  display: block;
+  cursor: pointer;
+}
+
+.vid-sidebar-plus-icon:hover {
+  color: white;
+  transform: scale(1.1);
+}
+
+.vid-sidebar-minus-icon {
+  font-size: 32px;
+  color: #B40101;
+  display: block;
+  cursor: pointer;
+}
+
+.vid-sidebar-minus-icon:hover {
+  color: white;
+  transform: scale(1.1);
+}
+
+.vid-hidden {
+  display: none;
+}
+
+
+
