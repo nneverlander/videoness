@@ -1,4 +1,3 @@
-
 var firebase = require("firebase/app");
 require("firebase/auth");
 require("firebase/database");
@@ -12,5 +11,6 @@ var config = {
 };
 
 var fbApp = firebase.initializeApp(config);
+
 module.exports = fbApp;
 

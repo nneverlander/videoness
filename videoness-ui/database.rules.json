@@ -8,7 +8,7 @@
     },
     "userStats": {
       "$uid": {
-        ".read": "$uid === auth.uid",
+        ".read": "auth != null",
         ".write": "$uid === auth.uid",
         ".indexOn": ["pagesInHistory"]
       }

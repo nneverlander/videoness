@@ -1,10 +1,23 @@
 import React from 'react';
 import {Link} from 'react-router';
+import fbApp from './fbApp';
 
-require("firebase/auth");
 require('./header.css');
 
 var Header = React.createClass({
+  getInitialState() {
+    return {
+      pagesInHistory: 0,
+      uid: fbApp.auth().currentUser.uid
+    };
+  },
+  componentWillMount: function() {
+    var ref = fbApp.database().ref('userStats/' + this.state.uid + '/pagesInHistory');
+    ref.on('value', (snapshot) => {
+      console.log(snapshot.val());
+      this.setState({pagesInHistory: snapshot.val()});
+    });
+  },
   signOut() {
     firebase.auth().signOut();
   },
@@ -24,6 +37,9 @@ var Header = React.createClass({
                 </button>
               </span>
             </div>
+          </div>
+          <div className="vid-pages-in-history">
+            <p>pages in history: {this.state.pagesInHistory}</p>
           </div>
           <div className="vid-user-settings">
             <div className="vid-menu-icon-container">
