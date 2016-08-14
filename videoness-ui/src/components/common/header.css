@@ -2,7 +2,7 @@
   background-color: #B40101; /* todo red color*/
 }
 
-.vid-home a{
+.vid-home a {
   position: absolute;
   left: 10px;
   color: white;
@@ -139,6 +139,21 @@
   height: 40px;
 }
 
+.vid-date-box {
+  width: 30%;
+  padding: 8px 8px 0 8px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.8);
+  margin: auto;
+  color: white;
+  display: table;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  position: fixed;
+  z-index: 7;
+}
+
 @media screen and (max-width: 650px) {
   .vid-pages-in-history {
     position: absolute;
@@ -150,6 +165,7 @@
     background-color: #B40101;
     z-index: 5;
   }
+
   .vid-filler {
     height: 70px;
   }

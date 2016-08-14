@@ -3,20 +3,33 @@
     "userProfiles": {
       "$uid": {
         ".read": "auth != null",
-        ".write": "$uid === auth.uid"
+        ".write": "$uid === auth.uid",
+        "videos": {
+          ".indexOn": [
+            "addedAt"
+          ]
+        }
       }
     },
     "userStats": {
       "$uid": {
         ".read": "auth != null",
         ".write": "$uid === auth.uid",
-        ".indexOn": ["pagesInHistory"]
+        ".indexOn": [
+          "pagesInHistory"
+        ]
       }
     },
     "videoMetadata": {
-      ".read": false,
-      ".write": "auth != null",
-      ".indexOn": ["uid", "location", "timestamp"]
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "$uid === auth.uid",
+        ".indexOn": [
+          "uid",
+          "location",
+          "timestamp"
+        ]
+      }
     }
   }
 }

@@ -3,27 +3,78 @@
     "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2": {
       "name": "Adi Kancherla",
       "friends": {},
-      "videos": {},
-      "favs": {},
+      "videos": {
+        "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2:::scottySire": {
+          "isFav": true,
+          "addedAt" : 123
+        },
+        "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2:::scottySire2": {
+          "isFav": false,
+          "addedAt" : 124
+        }
+      },
       "follows": {},
       "isActive": true
     }
   },
   "videoMetadata": {
-    "scottySire": {
-      "uid": "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2",
-      "location": "",
-      "fbShares": 1,
-      "twtrShares": 1,
-      "favs": 1,
-      "timelineAdds": 1,
-      "type": "individual",
-      "timestamp": 123,
-      "duration": 120,
-      "resolution": "720p",
-      "aspectRatio": "16:9",
-      "plays": 12,
-      "privacy": "all"
+    "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2": {
+      "scottySire": {
+        "location": "",
+        "fbShares": 1,
+        "twtrShares": 1,
+        "favs": 1,
+        "timelineAdds": 1,
+        "type": "individual",
+        "timestamp": 123,
+        "duration": 120,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "plays": 12,
+        "privacy": "all"
+      },
+      "scottySire1": {
+        "location": "",
+        "fbShares": 1,
+        "twtrShares": 1,
+        "favs": 1,
+        "timelineAdds": 1,
+        "type": "individual",
+        "timestamp": 123,
+        "duration": 123,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "plays": 12,
+        "privacy": "all"
+      },
+      "scottySire2": {
+        "location": "",
+        "fbShares": 1,
+        "twtrShares": 1,
+        "favs": 1,
+        "timelineAdds": 1,
+        "type": "individual",
+        "timestamp": 123,
+        "duration": 124,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "plays": 12,
+        "privacy": "all"
+      },
+      "scottySire3": {
+        "location": "",
+        "fbShares": 1,
+        "twtrShares": 1,
+        "favs": 1,
+        "timelineAdds": 1,
+        "type": "individual",
+        "timestamp": 124,
+        "duration": 125,
+        "resolution": "720p",
+        "aspectRatio": "16:9",
+        "plays": 12,
+        "privacy": "all"
+      }
     }
   },
   "userStats": {

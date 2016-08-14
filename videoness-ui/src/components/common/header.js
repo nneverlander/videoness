@@ -14,7 +14,6 @@ var Header = React.createClass({
   componentWillMount: function() {
     var ref = fbApp.database().ref('userStats/' + this.state.uid + '/pagesInHistory');
     ref.on('value', (snapshot) => {
-      console.log(snapshot.val());
       this.setState({pagesInHistory: snapshot.val()});
     });
   },
@@ -59,6 +58,9 @@ var Header = React.createClass({
           </div>
         </nav>
         <p className="vid-filler"/>
+        <div className="vid-date-box">
+          <p>{this.props.date}</p>
+        </div>
       </div>
     );
   }
