@@ -5,14 +5,13 @@
       "friends": {},
       "videos": {
         "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2:::scottySire": {
-          "isFav": true,
           "addedAt" : 123
         },
         "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2:::scottySire2": {
-          "isFav": false,
           "addedAt" : 124
         }
       },
+      "favs": {},
       "follows": {},
       "isActive": true
     }
