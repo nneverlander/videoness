@@ -1,6 +1,7 @@
 import React from 'react';
 import Video from 'react-html5video';
 import fbApp from './fbApp';
+import CONSTANTS from './constants';
 
 require('react-html5video/dist/ReactHtml5Video.css');
 require('./video.css');
@@ -9,47 +10,45 @@ require('./video.css');
 
 var VideoInst = React.createClass({
   getInitialState() {
+    this.uid = fbApp.auth().currentUser.uid;
+    //todo filename exension crap and split
+    this.vidRef = fbApp.database().ref('userProfiles/' + this.uid + '/videos/' + this.props.vidAuthor + CONSTANTS.SEPARATOR + this.props.vidId.split('.')[0]);
+    this.favRef = fbApp.database().ref('userProfiles/' + this.uid + '/favs/' + this.props.vidAuthor + CONSTANTS.SEPARATOR + this.props.vidId.split('.')[0]);
     return {
-      vidId: this.props.vidId.split('.')[0], //todo filename exension crap
-      isFav: this.props.isFav,
-      isAddedToTimeline: this.props.isAddedToTimeline
+      hide: false,
+      isFav: false,
+      isAddedToTimeline: false,
+      isOwn: false
     }
   },
+  componentDidMount() {
+    this.vidRef.on('value', (snapshot) => {
+      this.setState({isAddedToTimeline: snapshot.val()});
+    });
+    this.favRef.on('value', (snapshot) => {
+      this.setState({isFav: snapshot.val()});
+    });
+    this.setState({isOwn: (this.uid === this.props.vidAuthor)});
+  },
+  componentWillUnMount() {
+    this.vidRef.off();
+    this.favRef.off();
+  },
   toggleAddToTimeline() {
-    var uid = fbApp.auth().currentUser.uid;
     if (this.state.isAddedToTimeline) {
-      fbApp.database().ref('userProfiles/' + uid + '/videos/' + this.props.vidAuthor + ':::' + this.state.vidId).remove().then(() => {
-          this.setState({isAddedToTimeline: false});
-        })
-        .catch(function (error) {
-          console.log('removing video from timeline failed' + error);
-        });
+      this.vidRef.remove();
+      if (this.props.parent === 'timeline') {
+        this.setState({hide: true});
+      }
     } else {
-      var addVid = {"addedAt": Date.now()};
-      fbApp.database().ref('userProfiles/' + uid + '/videos/' + this.props.vidAuthor + ':::' + this.state.vidId).set(addVid).then(() => {
-          this.setState({isAddedToTimeline: true});
-        })
-        .catch(function (error) {
-          console.log('adding video to timeline failed' + error);
-        });
+      this.vidRef.set({"addedAt": Date.now()});
     }
   },
   toggleFav() {
-    var uid = fbApp.auth().currentUser.uid;
     if (this.state.isFav) {
-      fbApp.database().ref('userProfiles/' + uid + '/favs/' + this.props.vidAuthor + ':::' + this.state.vidId).remove().then(() => {
-          this.setState({isFav: false});
-        })
-        .catch(function (error) {
-          console.log('removing video from fav failed' + error);
-        });
+      this.favRef.remove();
     } else {
-      fbApp.database().ref('userProfiles/' + uid + '/favs/' + this.props.vidAuthor + ':::' + this.state.vidId).set(true).then(() => {
-          this.setState({isFav: true});
-        })
-        .catch(function (error) {
-          console.log('adding video to fav failed' + error);
-        });
+      this.favRef.set(true);
     }
   },
   shareOnTwitter(url) {
@@ -72,7 +71,7 @@ var VideoInst = React.createClass({
   },
   render() {
     return (
-      <div className="vid-video-inst-container">
+      <div className={this.state.hide ? "vid-hidden" : "vid-video-inst-container"}>
         <Video className="vid-video-inst" controls loop onPlay={this.props.onPlay}>
           <source src={this.props.src}/>
         </Video>
@@ -87,7 +86,7 @@ var VideoInst = React.createClass({
           <i data-toggle="tooltip" data-placement="left"
              title={this.state.isAddedToTimeline ? "remove from timeline" : "add to timeline"}
              onClick={this.toggleAddToTimeline}
-             className={this.props.isOwn ? "vid-hidden" : this.state.isAddedToTimeline ? "glyphicon glyphicon-minus vid-sidebar-minus-icon" : "glyphicon glyphicon-plus vid-sidebar-plus-icon"}></i>
+             className={this.state.isOwn ? "vid-hidden" : this.state.isAddedToTimeline ? "glyphicon glyphicon-minus vid-sidebar-minus-icon" : "glyphicon glyphicon-plus vid-sidebar-plus-icon"}></i>
         </div>
       </div>
     );
