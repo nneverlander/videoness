@@ -6,8 +6,6 @@ import CONSTANTS from './constants';
 require('react-html5video/dist/ReactHtml5Video.css');
 require('./video.css');
 
-//todo intermittent video cannot be played in browser
-
 var VideoInst = React.createClass({
   getInitialState() {
     this.uid = fbApp.auth().currentUser.uid;
@@ -15,6 +13,7 @@ var VideoInst = React.createClass({
     this.vidRef = fbApp.database().ref('userProfiles/' + this.uid + '/videos/' + this.props.vidAuthor + CONSTANTS.SEPARATOR + this.props.vidId.split('.')[0]);
     this.favRef = fbApp.database().ref('userProfiles/' + this.uid + '/favs/' + this.props.vidAuthor + CONSTANTS.SEPARATOR + this.props.vidId.split('.')[0]);
     return {
+      src: '',
       hide: false,
       isFav: false,
       isAddedToTimeline: false,
@@ -30,18 +29,23 @@ var VideoInst = React.createClass({
     });
     this.setState({isOwn: (this.uid === this.props.vidAuthor)});
   },
-  componentWillUnMount() {
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      src: nextProps.src
+    });
+  },
+  componentWillUnmount() {
     this.vidRef.off();
     this.favRef.off();
   },
   toggleAddToTimeline() {
     if (this.state.isAddedToTimeline) {
       this.vidRef.remove();
-      if (this.props.parent === 'timeline') {
+      if (this.props.parent === 'timeline') { //this check is needed because timeline remove could happen from any page (like places). In that case we don't need to hide it.
         this.setState({hide: true});
       }
     } else {
-      this.vidRef.set({"addedAt": Date.now()});
+      this.vidRef.set({"addedAt": -1*Date.now()});
     }
   },
   toggleFav() {
@@ -72,8 +76,8 @@ var VideoInst = React.createClass({
   render() {
     return (
       <div className={this.state.hide ? "vid-hidden" : "vid-video-inst-container"}>
-        <Video className="vid-video-inst" controls loop onPlay={this.props.onPlay}>
-          <source src={this.props.src}/>
+        <Video key={this.state.src} className="vid-video-inst" controls loop onPlay={this.props.onPlay}>
+          <source src={this.state.src}/>
         </Video>
         <div className="vid-overlay-sidebar">
           <img data-toggle="tooltip" data-placement="left" title="share on facebook"
