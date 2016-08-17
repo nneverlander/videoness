@@ -30,9 +30,11 @@ var VideoInst = React.createClass({
     this.setState({isOwn: (this.uid === this.props.vidAuthor)});
   },
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      src: nextProps.src
-    });
+    if (nextProps.src != null && this.state.src !== nextProps.src) {
+      this.setState({
+        src: nextProps.src
+      });
+    }
   },
   componentWillUnmount() {
     this.vidRef.off();
@@ -45,7 +47,7 @@ var VideoInst = React.createClass({
         this.setState({hide: true});
       }
     } else {
-      this.vidRef.set({"addedAt": -1*Date.now()});
+      this.vidRef.set({"addedAt": -1 * Date.now()});
     }
   },
   toggleFav() {
@@ -74,10 +76,11 @@ var VideoInst = React.createClass({
     });
   },
   render() {
+    var src = this.state.src === '' ? this.props.src : this.state.src;
     return (
       <div className={this.state.hide ? "vid-hidden" : "vid-video-inst-container"}>
-        <Video key={this.state.src} className="vid-video-inst" controls loop onPlay={this.props.onPlay}>
-          <source src={this.state.src}/>
+        <Video key={src} className="vid-video-inst" controls loop onPlay={this.props.onPlay}>
+          <source src={src}/>
         </Video>
         <div className="vid-overlay-sidebar">
           <img data-toggle="tooltip" data-placement="left" title="share on facebook"

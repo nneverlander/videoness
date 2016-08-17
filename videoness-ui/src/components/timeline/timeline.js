@@ -118,13 +118,13 @@ var Timeline = React.createClass({
         vidVal = videoInst[propName];
       });
       return (
-        <VideoInst key={index} vidAuthor={vidVal.author} vidId={vidId} parent="timeline"
+        <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parent="timeline"
                    addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this, index)}/>
       );
     });
     return (
       <div>
-        <Header date="13 Aug 2015"/>
+        <Header date="13 Aug 2016"/>
         {videos}
       </div>
     );
