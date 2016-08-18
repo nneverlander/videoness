@@ -53,8 +53,11 @@ var VideoInst = React.createClass({
   toggleFav() {
     if (this.state.isFav) {
       this.favRef.remove();
+      if (this.props.parent === 'favs') { //this check is needed because fav remove could happen from any page (like places). In that case we don't need to hide it.
+        this.setState({hide: true});
+      }
     } else {
-      this.favRef.set(true);
+      this.favRef.set({"addedAt": -1 * Date.now()});
     }
   },
   shareOnTwitter(url) {

@@ -8,6 +8,11 @@
           ".indexOn": [
             "addedAt"
           ]
+        },
+        "favs": {
+          ".indexOn": [
+            "addedAt"
+          ]
         }
       }
     },
