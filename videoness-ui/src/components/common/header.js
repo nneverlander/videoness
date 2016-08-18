@@ -58,9 +58,6 @@ var Header = React.createClass({
           </div>
         </nav>
         <p className="vid-filler"/>
-        <div className="vid-date-box">
-          <p>{this.props.date}</p>
-        </div>
       </div>
     );
   }

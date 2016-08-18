@@ -1,0 +1,51 @@
+.vid-hidden {
+  display: none;
+}
+
+.vid-date-box {
+  width: 30%;
+  padding: 8px 8px 0 8px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.8);
+  margin: auto;
+  color: white;
+  display: table;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  position: fixed;
+  z-index: 7;
+}
+
+.vid-show-new-vids-button {
+  background-color: #B40101;
+  color: white;
+  font-size: small;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 8;
+}
+
+.vid-show-new-vids-button:after {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 0 15px 15px;
+  border-color: #b40101 transparent;
+  display: block;
+  width: 0;
+  z-index: 8;
+  top: -10px;
+  left: 35%;
+}
+
+.vid-show-new-vids-button:hover:after {
+  top: -15px;
+}
+
+.vid-show-new-vids-button:hover, .vid-show-new-vids-button:focus {
+  outline: none;
+  color: #B40101;
+  background-color: white !important;
+}
