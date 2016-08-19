@@ -16,6 +16,10 @@
   cursor: pointer;
 }
 
+.vid-friend-box:hover {
+  transform: scale(1.05);
+}
+
 .vid-all-friends-box {
   margin-top: 20px;
 }

@@ -89,10 +89,6 @@ html, body {
   margin: 7% auto 2% auto;
 }
 
-/* phones */
-@media screen and (max-width: 360px) {
-}
-
 /* tablets */
 @media screen and (max-width: 1024px) {
   html, body {
@@ -100,7 +96,27 @@ html, body {
   }
 
   .vid-main-title {
-    width:70%;
-    margin:15% auto 2% auto;
+    width: 70%;
+    margin: 15% auto 2% auto;
+  }
+}
+
+/* other */
+@media screen and (max-width: 650px) {
+  html, body {
+    text-align: left;
+  }
+
+  .vid-sticky-header {
+    min-height: 80px;
+  }
+
+  .vid-title {
+    width: 70%;
+  }
+
+  .vid-main-title {
+    width: 70%;
+    margin: 40% auto 2% auto;
   }
 }

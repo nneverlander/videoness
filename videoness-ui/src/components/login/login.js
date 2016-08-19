@@ -9,6 +9,7 @@ import Timeline from '../timeline/timeline';
 import Places from '../places/places';
 import Favs from '../favs/favs';
 import Friends from '../friends/friends';
+import fbApp from '../common/fbApp';
 
 require('../common/spinner.css');
 require('./login.css');
@@ -120,6 +121,7 @@ var Login = React.createClass({
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass).then((result) => {
         Login.renderMainPage(result)
       }).catch((error) => {
+        $(".vid-spinner-bg").hide();
         var errorCode = error.code;
         if (errorCode === 'auth/wrong-password' || errorCode === 'auth/invalid-email') {
           this.setState({
@@ -127,11 +129,15 @@ var Login = React.createClass({
           });
         } else if (errorCode === 'auth/user-not-found') {
           firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass).then((result) => {
+            $(".vid-spinner-bg").hide();
+            this.updateUserProfile(result);
             Login.renderMainPage(result)
           }).catch((error) => {
+            $(".vid-spinner-bg").hide();
             console.error(error);
           });
         } else if (error.code === 'auth/account-exists-with-different-credential') {
+          $(".vid-spinner-bg").hide();
           swal({
             title: "", text: error.message + " Email used is: <span style='color:#B40101'>" + error.email + "</span>",
             html: true
@@ -148,6 +154,7 @@ var Login = React.createClass({
     var provider = new firebase.auth.FacebookAuthProvider();
     // provider.addScope('user_birthday'); todo more scopes like birthday
     firebase.auth().signInWithPopup(provider).then((result) => {
+      this.updateUserProfile(result.user);
       Login.renderMainPage(result)
     }).catch((error) => {
       if (error.code === 'auth/account-exists-with-different-credential') {
@@ -161,6 +168,17 @@ var Login = React.createClass({
         console.error(error);
       }
     });
+  },
+  updateUserProfile(user) {
+    var name = user.displayName;
+    var email = user.email;
+    var uid = user.uid;
+    fbApp.database().ref('userProfiles/' + uid + '/email').once('value', ((snapshot) => {
+      if (snapshot.val() == null) { //user profile doesn't exist
+        console.log("called for: " + uid);
+        fbApp.database().ref('userProfiles/' + uid).set({"name": name, "email": email});
+      }
+    }));
   },
   showForgotPasswordBox() {
     this.setState({
@@ -182,7 +200,7 @@ var Login = React.createClass({
       window.user = result; //todo logged in user info
       $("#loginModal").modal("hide");
       ReactDOM.render(
-        <Router history={browserHistory}>
+        <Router key="abc" history={browserHistory}>
           <Route path="/" component={Main}/>
           <Route path="/timeline" component={Timeline}/>
           <Route path="/places" component={Places}/>
@@ -227,7 +245,8 @@ var Login = React.createClass({
                 <input type="text" onChange={this.setResetEmail} value={this.state.resetEmail}
                        className="form-control vid-input" ref={(v) => this.resetEmail = v} placeholder="email"/>
                 <span className={this.state.invalidResetEmail ? 'vid-invalid-input' : 'vid-hidden'}>invalid email</span>
-                <span className={this.state.resetEmailNotFound ? "vid-invalid-input" : "vid-hidden"}>email not found</span>
+                <span
+                  className={this.state.resetEmailNotFound ? "vid-invalid-input" : "vid-hidden"}>email not found</span>
                 <br/>
                 <button onClick={this.validateResetEmail} className="btn btn-default vid-login-btn">reset
                   password
