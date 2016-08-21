@@ -170,10 +170,11 @@ var Login = React.createClass({
     var name = user.displayName;
     var email = user.email;
     var uid = user.uid;
+    var photoUrl = user.photoURL;
     fbApp.database().ref('userProfiles/' + uid + '/email').once('value', ((snapshot) => {
       if (snapshot.val() == null) { //user profile doesn't exist
         console.log("called for: " + uid);
-        fbApp.database().ref('userProfiles/' + uid).set({"name": name, "email": email});
+        fbApp.database().ref('userProfiles/' + uid).set({"name": name, "email": email, "photoUrl": photoUrl});
       }
     }));
   },
