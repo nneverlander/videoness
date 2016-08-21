@@ -6,16 +6,19 @@ require('./header.css');
 
 var Header = React.createClass({
   getInitialState() {
+    this.uid = fbApp.auth().currentUser.uid;
+    this.pagesInHistoryRef = fbApp.database().ref('userStats/' + this.uid + '/pagesInHistory');
     return {
-      pagesInHistory: 0,
-      uid: fbApp.auth().currentUser.uid
+      pagesInHistory: 0
     };
   },
   componentWillMount: function() {
-    var ref = fbApp.database().ref('userStats/' + this.state.uid + '/pagesInHistory');
-    ref.on('value', (snapshot) => {
+    this.pagesInHistoryRef.on('value', (snapshot) => {
       this.setState({pagesInHistory: snapshot.val()});
     });
+  },
+  componentWillUnmount: function() {
+    this.pagesInHistoryRef.off();
   },
   signOut() {
     firebase.auth().signOut();

@@ -7,6 +7,8 @@ import ReactDOM from 'react-dom';
 import Video from 'react-html5video';
 import Login from '../login/login';
 import fbApp from '../common/fbApp';
+import routes from '../common/routes';
+import {Router, browserHistory} from 'react-router';
 
 require('react-html5video/dist/ReactHtml5Video.css');
 require('./index.css');
@@ -106,7 +108,10 @@ var Index = React.createClass({
 function initApp() {
   fbApp.auth().onAuthStateChanged((user) => {
     if (user) {
-      Login.renderMainPage(user);
+      ReactDOM.render(
+        <Router history={browserHistory} routes={routes}/>,
+        document.getElementById('container')
+      );
     } else {
       ReactDOM.render(
         <Index/>,

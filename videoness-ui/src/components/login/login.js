@@ -3,12 +3,6 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, browserHistory, hashHistory} from 'react-router';
-import Main from '../main/main';
-import Timeline from '../timeline/timeline';
-import Places from '../places/places';
-import Favs from '../favs/favs';
-import Friends from '../friends/friends';
 import fbApp from '../common/fbApp';
 
 require('../common/spinner.css');
@@ -32,6 +26,9 @@ var Login = React.createClass({
   },
   componentDidMount: function () {
     $("#loginModal").on('hidden.bs.modal', this.handleHidden);
+  },
+  componentWillUnmount: function () {
+    $("#loginModal").off('hidden.bs.modal', this.handleHidden);
   },
   handleHidden() {
     this.setState({
@@ -119,7 +116,7 @@ var Login = React.createClass({
     if (!this.state.invalidEmail) { // no need to check invalidPass since pass is gauranteed to be valid here
       $(".vid-spinner-bg").show();
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.pass).then((result) => {
-        Login.renderMainPage(result)
+        $("#loginModal").modal("hide");
       }).catch((error) => {
         $(".vid-spinner-bg").hide();
         var errorCode = error.code;
@@ -131,7 +128,7 @@ var Login = React.createClass({
           firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass).then((result) => {
             $(".vid-spinner-bg").hide();
             this.updateUserProfile(result);
-            Login.renderMainPage(result)
+            $("#loginModal").modal("hide");
           }).catch((error) => {
             $(".vid-spinner-bg").hide();
             console.error(error);
@@ -155,7 +152,7 @@ var Login = React.createClass({
     // provider.addScope('user_birthday'); todo more scopes like birthday
     firebase.auth().signInWithPopup(provider).then((result) => {
       this.updateUserProfile(result.user);
-      Login.renderMainPage(result)
+      $("#loginModal").modal("hide");
     }).catch((error) => {
       if (error.code === 'auth/account-exists-with-different-credential') {
         swal({
@@ -194,23 +191,6 @@ var Login = React.createClass({
       showForgotPasswordBox: false,
       showResetEmailSent: false
     });
-  },
-  statics: {
-    renderMainPage(result) {
-      window.user = result; //todo logged in user info
-      $("#loginModal").modal("hide");
-      ReactDOM.render(
-        <Router key="abc" history={browserHistory}>
-          <Route path="/" component={Main}/>
-          <Route path="/timeline" component={Timeline}/>
-          <Route path="/places" component={Places}/>
-          <Route path="/favs" component={Favs}/>
-          <Route path="/friends" component={Friends}/>
-          <Route path="*" component={Main}/>
-        </Router>,
-        document.getElementById('container')
-      );
-    }
   },
   render(){
     return (
