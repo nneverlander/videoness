@@ -10,13 +10,13 @@ var Timeline = React.createClass({
   getInitialState() {
     this.uid = fbApp.auth().currentUser.uid;
     this.lastRetrievedChild = Number.NEGATIVE_INFINITY;
-    this.userVidRef = fbApp.database().ref('userProfiles/' + this.uid + '/videos');
+    this.userVidRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/videos');
     this.userStorageRef = fbApp.storage().ref(this.uid);
     this.lastScrollTop = 0; //for detecting scroll direction
     this.masterObj = {};
     this.masterArray = [];
     this.newlyAddedArray = [];
-    this.showNewVidsLastShown = 0;
+    this.newVidsLastShown = 0;
     return {
       showNewVideosButton: false,
       renderDataArray: []
@@ -82,9 +82,9 @@ var Timeline = React.createClass({
           obj.src = metadata.downloadURLs[0]; //todo check if metadata has mp4 extension
           if (obj.isNewlyAdded) {
             if (this.newlyAddedArray.length > CONSTANTS.NEWLY_ADDED_COUNT &&
-              (Date.now() - this.showNewVidsLastShown > CONSTANTS.SHOW_NEW_VIDS_LAST_SHOWN_DELAY)) { // todo maybe more intelligent criteria
+              (Date.now() - this.newVidsLastShown > CONSTANTS.SHOW_NEW_VIDS_LAST_SHOWN_DELAY)) { // todo maybe more intelligent criteria
               this.setState({showNewVideosButton: true}, (() => {
-                this.showNewVidsLastShown = Date.now();
+                this.newVidsLastShown = Date.now();
                 setTimeout((() => {
                   this.setState({showNewVideosButton: false})
                 }), 3000); // hide after 3 seconds

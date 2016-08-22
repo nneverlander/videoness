@@ -1,95 +1,158 @@
 {
-  "userProfiles": {
-    "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2": {
+  "L0NzE4-userProfiles-Q0E0NjA": { // this weird name is for security reasons
+    "lIOgT8uvUAeRRupQaAr0tzCqaWx1": {
       "name": "Adi Kancherla",
       "email": "findadit@gmail.com",
-      "friends": {},
+      "photoUrl": "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/11295540_1080217708673921_4482172137754503496_n.jpg?oh=14663929d6002b57831536bdefbf1dc9&oe=5847364D",
+      "friends": {
+        "CDy2LFg6b5YK4FITQXuZbTFDfG83": {
+          "name": "Adi Kancherla 1",
+          "email": "a@test.com",
+          "photoUrl": "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/11295540_1080217708673921_4482172137754503496_n.jpg?oh=14663929d6002b57831536bdefbf1dc9&oe=5847364D",
+          "addedAt" : -142
+        }
+      },
       "videos": {
-        "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2:::scottySire": {
-          "addedAt" : -133
+        "lIOgT8uvUAeRRupQaAr0tzCqaWx1:::scottySire": {
+          "addedAt": -133
         },
-        "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2:::scottySire2": {
-          "addedAt" : -134
+        "lIOgT8uvUAeRRupQaAr0tzCqaWx1:::scottySire2": {
+          "addedAt": -134
         },
-        "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2:::scottySire3": {
-          "addedAt" : -135
+        "lIOgT8uvUAeRRupQaAr0tzCqaWx1:::scottySire3": {
+          "addedAt": -135
         },
-        "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2:::scottySire4": {
-          "addedAt" : -126
+        "lIOgT8uvUAeRRupQaAr0tzCqaWx1:::scottySire4": {
+          "addedAt": -126
         },
-        "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2:::scottySire5": {
-          "addedAt" : -127
+        "lIOgT8uvUAeRRupQaAr0tzCqaWx1:::scottySire5": {
+          "addedAt": -127
         },
-        "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2:::scottySire6": {
-          "addedAt" : -128
+        "lIOgT8uvUAeRRupQaAr0tzCqaWx1:::scottySire6": {
+          "addedAt": -128
+        }
+      },
+      "favs": {},
+      "follows": {},
+      "settings": {
+        "defaultPrivacy" : "friends"
+      }
+    },
+    "CDy2LFg6b5YK4FITQXuZbTFDfG83" :{
+      "email": "a@test.com",
+      "name": "Adi Kancherla 1",
+      "photoUrl": "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/11295540_1080217708673921_4482172137754503496_n.jpg?oh=14663929d6002b57831536bdefbf1dc9&oe=5847364D",
+      "friends": {
+        "lIOgT8uvUAeRRupQaAr0tzCqaWx1": {
+          "name": "Adi Kancherla",
+          "email": "findadit@gmail.com",
+          "photoUrl": "https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/11295540_1080217708673921_4482172137754503496_n.jpg?oh=14663929d6002b57831536bdefbf1dc9&oe=5847364D",
+          "addedAt" : -140
+        }
+      },
+      "videos": {
+        "CDy2LFg6b5YK4FITQXuZbTFDfG83:::scottySire": { // reason for this format is to avoid name collisions
+          "addedAt": -133,
+          "privacy": "all"
+        },
+        "CDy2LFg6b5YK4FITQXuZbTFDfG83:::scottySire2": {
+          "addedAt": -134
+        },
+        "CDy2LFg6b5YK4FITQXuZbTFDfG83:::scottySire3": {
+          "addedAt": -135
+        },
+        "CDy2LFg6b5YK4FITQXuZbTFDfG83:::scottySire4": {
+          "addedAt": -126
+        },
+        "CDy2LFg6b5YK4FITQXuZbTFDfG83:::scottySire5": {
+          "addedAt": -127
+        },
+        "CDy2LFg6b5YK4FITQXuZbTFDfG83:::scottySire6": {
+          "addedAt": -128
         }
       },
       "favs": {},
       "follows": {}
     }
   },
-  "videoMetadata": {
-    "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2": {
+  "DwjUe-videoMetadata-0TEwM": {
+    "lIOgT8uvUAeRRupQaAr0tzCqaWx1": {
       "scottySire": {
-        "location": "",
-        "fbShares": 1,
-        "twtrShares": 1,
-        "favs": 1,
-        "timelineAdds": 1,
-        "type": "individual",
-        "timestamp": 123,
-        "duration": 120,
-        "resolution": "720p",
-        "aspectRatio": "16:9",
-        "plays": 12,
-        "privacy": "all"
+        "w": {
+          "location": "",
+          "type": "individual",
+          "timestamp": 123,
+          "duration": 120,
+          "resolution": "720p",
+          "aspectRatio": "16:9",
+          "privacy": "all"
+        },
+        "a": {
+          "fbShares": 1,
+          "twtrShares": 1,
+          "favs": 1,
+          "timelineAdds": 1,
+          "plays": 12
+        }
       },
       "scottySire1": {
-        "location": "",
-        "fbShares": 1,
-        "twtrShares": 1,
-        "favs": 1,
-        "timelineAdds": 1,
-        "type": "individual",
-        "timestamp": 123,
-        "duration": 123,
-        "resolution": "720p",
-        "aspectRatio": "16:9",
-        "plays": 12,
-        "privacy": "all"
+        "w": {
+          "location": "",
+          "type": "individual",
+          "timestamp": 123,
+          "duration": 120,
+          "resolution": "720p",
+          "aspectRatio": "16:9",
+          "privacy": "all"
+        },
+        "a": {
+          "fbShares": 1,
+          "twtrShares": 1,
+          "favs": 1,
+          "timelineAdds": 1,
+          "plays": 12
+        }
       },
       "scottySire2": {
-        "location": "",
-        "fbShares": 1,
-        "twtrShares": 1,
-        "favs": 1,
-        "timelineAdds": 1,
-        "type": "individual",
-        "timestamp": 123,
-        "duration": 124,
-        "resolution": "720p",
-        "aspectRatio": "16:9",
-        "plays": 12,
-        "privacy": "all"
+        "w": {
+          "location": "",
+          "type": "individual",
+          "timestamp": 123,
+          "duration": 120,
+          "resolution": "720p",
+          "aspectRatio": "16:9",
+          "privacy": "all"
+        },
+        "a": {
+          "fbShares": 1,
+          "twtrShares": 1,
+          "favs": 1,
+          "timelineAdds": 1,
+          "plays": 12
+        }
       },
       "scottySire3": {
-        "location": "",
-        "fbShares": 1,
-        "twtrShares": 1,
-        "favs": 1,
-        "timelineAdds": 1,
-        "type": "individual",
-        "timestamp": 124,
-        "duration": 125,
-        "resolution": "720p",
-        "aspectRatio": "16:9",
-        "plays": 12,
-        "privacy": "all"
+        "w": {
+          "location": "",
+          "type": "individual",
+          "timestamp": 123,
+          "duration": 120,
+          "resolution": "720p",
+          "aspectRatio": "16:9",
+          "privacy": "all"
+        },
+        "a": {
+          "fbShares": 1,
+          "twtrShares": 1,
+          "favs": 1,
+          "timelineAdds": 1,
+          "plays": 12
+        }
       }
     }
   },
-  "userStats": {
-    "BJ2nyoX1cNfEIMMHRyl6yAI7C3H2": {
+  "EyMjTg-userStats-1ODwDA": {
+    "lIOgT8uvUAeRRupQaAr0tzCqaWx1": {
       "lastActive": 123,
       "lastVideoPosted": 123,
       "avgVideosCreatedPerDay": 123,

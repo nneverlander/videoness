@@ -1,48 +1,26 @@
 import React from 'react';
 import Header from '../common/header';
-import fbApp from '../common/fbApp';
 import VideoInst from '../common/video';
+import fbApp from '../common/fbApp';
 import CONSTANTS from '../common/constants';
 
-require('./favs.css');
+require('./timeline.css');
 
-var Favs = React.createClass({
+var UserTimeline = React.createClass({
   getInitialState() {
-    this.uid = fbApp.auth().currentUser.uid;
-    this.favRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/favs');
+    this.uid = this.props.params.user;
+    this.lastRetrievedChild = Number.NEGATIVE_INFINITY;
+    this.userVidRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/videos');
     this.userStorageRef = fbApp.storage().ref(this.uid);
-    this.masterObj = {};
+    this.lastScrollTop = 0; //for detecting scroll direction
     this.masterArray = [];
+    this.masterObj = {};
     return {
+      areFriends: false,
       renderDataArray: []
     }
   },
-  componentDidMount() {
-    this.favRef.orderByChild('addedAt').limitToFirst(3).on('child_added', this.handleSnapshot);
-    window.addEventListener('scroll', this.handleScroll);
-  },
-  componentWillUnmount() {
-    this.favRef.off();
-    window.removeEventListener('scroll', this.handleScroll);
-  },
-  handleScroll(evt) {
-    var scrollTop = evt.srcElement.body.scrollTop;
-    if (Math.abs(this.lastScrollTop - scrollTop) <= 50) // sensitivity of scroll in px
-      return;
-    if (scrollTop > this.lastScrollTop) { //down scroll
-      this.favRef.orderByChild('addedAt').startAt(this.lastRetrievedChild).limitToFirst(6).once('value', this.handleSnapshotOnScroll);
-    }
-    this.lastScrollTop = scrollTop;
-  },
   handleSnapshot(snapshot) {
-    var masterVideos = [];
-    var vid = {};
-    vid[snapshot.getKey()] = snapshot.val();
-    this.lastRetrievedChild = snapshot.val().addedAt;
-    masterVideos.push(vid);
-    this.getVideosFromStorage(masterVideos);
-  },
-  handleSnapshotOnScroll(snapshot) {
     var masterVideos = [];
     var data = snapshot.val();
     var propNames = Object.getOwnPropertyNames(data);
@@ -53,6 +31,13 @@ var Favs = React.createClass({
     propNames.forEach((propName, index) => {
       if (index == propNames.length - 1) {
         this.lastRetrievedChild = data[propName].addedAt;
+      }
+      //check privacy
+      var privacy = this.userVidRef.child('privacy');
+      if (privacy === CONSTANTS.PRIVACY_ME) {
+        return;
+      } else if (privacy === CONSTANTS.PRIVACY_FRIENDS && !this.state.areFriends) {
+        return;
       }
       var vid = {};
       vid[propName] = data[propName];
@@ -72,22 +57,42 @@ var Favs = React.createClass({
         }
         var renderDataObj = {
           author: vidAuthor,
-          addedAt: data[propName].addedAt,
-          isNewlyAdded: data[propName].isNewlyAdded
+          addedAt: data[propName].addedAt
         };
         var tmp = {};
         tmp[fileName] = renderDataObj;
         this.masterObj[fileName] = renderDataObj;
         this.masterArray.push(tmp);
         this.userStorageRef.child(fileName).getMetadata().then((metadata) => {
-          var obj = this.masterObj[metadata.name];
-          obj.src = metadata.downloadURLs[0]; //todo check if metadata has mp4 extension
+          this.masterObj[metadata.name].src = metadata.downloadURLs[0]; //todo check if metadata has mp4 extension
           this.setState({renderDataArray: this.masterArray});
         }).catch(function (error) {
           console.log(error.stack);
         });
       });
     }
+  },
+  componentDidMount() {
+    // check if friends
+    fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + fbApp.auth().currentUser.uid + '/friends/' + this.uid).once('value', (snapshot) => {
+      if (snapshot.val() != null) {
+        this.setState({areFriends: true});
+      }
+    });
+    this.userVidRef.orderByChild('addedAt').limitToFirst(3).once('value', this.handleSnapshot);
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+  handleScroll(evt) {
+    var scrollTop = evt.srcElement.body.scrollTop;
+    if (Math.abs(this.lastScrollTop - scrollTop) <= 50) // sensitivity of scroll in px
+      return;
+    if (scrollTop > this.lastScrollTop) { //down scroll
+      this.userVidRef.orderByChild('addedAt').startAt(this.lastRetrievedChild).limitToFirst(6).once('value', this.handleSnapshot);
+    }
+    this.lastScrollTop = scrollTop;
   },
   pauseOtherVideos(index) {
     var allVideos = document.getElementsByTagName('video');
@@ -105,8 +110,8 @@ var Favs = React.createClass({
         vidVal = videoInst[propName];
       });
       return (
-        <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parent="favs"
-                   addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this,index)}/>
+        <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parent="userTimeline"
+                   addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this, index)}/>
       );
     });
     return (
@@ -121,4 +126,4 @@ var Favs = React.createClass({
   }
 });
 
-module.exports = Favs;
+module.exports = UserTimeline;

@@ -1,6 +1,6 @@
 {
   "rules": {
-    "userProfiles": {
+    "L0NzE4-userProfiles-Q0E0NjA": {
       "$uid": {
         ".read": "auth != null",
         ".write": "$uid === auth.uid",
@@ -16,19 +16,27 @@
         }
       }
     },
-    "userStats": {
+    "EyMjTg-userStats-1ODwDA": {
       "$uid": {
-        ".read": "auth != null",
+        ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid",
         ".indexOn": [
           "pagesInHistory"
         ]
       }
     },
-    "videoMetadata": {
+    "DwjUe-videoMetadata-0TEwM": {
       "$uid": {
-        ".read": "auth != null",
-        ".write": "$uid === auth.uid",
+        "$video": {
+          "w": {
+            ".read": "auth != null",
+            ".write": "$uid === auth.uid"
+          },
+          "a": {
+            ".read": "auth != null",
+            ".write": "auth != null"
+          }
+        },
         ".indexOn": [
           "uid",
           "location",

@@ -4,6 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import fbApp from '../common/fbApp';
+import CONSTANTS from '../common/constants';
 
 require('../common/spinner.css');
 require('./login.css');
@@ -171,10 +172,9 @@ var Login = React.createClass({
     var email = user.email;
     var uid = user.uid;
     var photoUrl = user.photoURL;
-    fbApp.database().ref('userProfiles/' + uid + '/email').once('value', ((snapshot) => {
+    fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + uid + '/email').once('value', ((snapshot) => {
       if (snapshot.val() == null) { //user profile doesn't exist
-        console.log("called for: " + uid);
-        fbApp.database().ref('userProfiles/' + uid).set({"name": name, "email": email, "photoUrl": photoUrl});
+        fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/'  + uid).set({"name": name, "email": email, "photoUrl": photoUrl});
       }
     }));
   },

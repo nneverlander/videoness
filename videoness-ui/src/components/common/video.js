@@ -10,8 +10,9 @@ var VideoInst = React.createClass({
   getInitialState() {
     this.uid = fbApp.auth().currentUser.uid;
     //todo filename exension crap and split
-    this.vidRef = fbApp.database().ref('userProfiles/' + this.uid + '/videos/' + this.props.vidAuthor + CONSTANTS.SEPARATOR + this.props.vidId.split('.')[0]);
-    this.favRef = fbApp.database().ref('userProfiles/' + this.uid + '/favs/' + this.props.vidAuthor + CONSTANTS.SEPARATOR + this.props.vidId.split('.')[0]);
+    this.vidRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/videos/' + this.props.vidAuthor + CONSTANTS.SEPARATOR + this.props.vidId.split('.')[0]);
+    this.favRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/favs/' + this.props.vidAuthor + CONSTANTS.SEPARATOR + this.props.vidId.split('.')[0]);
+    this.settingsRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/settings');
     return {
       src: '',
       hide: false,
@@ -40,14 +41,19 @@ var VideoInst = React.createClass({
     this.vidRef.off();
     this.favRef.off();
   },
-  toggleAddToTimeline() {
+  toggleAddToTimeline() { //todo updte metadata on add fav and add timeline and fb share and twitter share etc...
     if (this.state.isAddedToTimeline) {
       this.vidRef.remove();
       if (this.props.parent === 'timeline') { //this check is needed because timeline remove could happen from any page (like places). In that case we don't need to hide it.
         this.setState({hide: true});
       }
     } else {
-      this.vidRef.set({"addedAt": -1 * Date.now()});
+      this.settingsRef.child('defaultPrivacy').once('value', (privacy) => {
+        this.vidRef.set({
+          "addedAt": -1 * Date.now(),
+          "privacy": privacy.val()
+        });
+      });
     }
   },
   toggleFav() {

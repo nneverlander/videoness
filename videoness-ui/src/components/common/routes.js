@@ -5,6 +5,7 @@ import Timeline from '../timeline/timeline';
 import Places from '../places/places';
 import Favs from '../favs/favs';
 import Friends from '../friends/friends';
+import UserTimeline from '../timeline/userTimeline';
 
 const routes = (
   <div>
@@ -12,6 +13,7 @@ const routes = (
     <Route path="/places" component={Places}/>
     <Route path="/favs" component={Favs}/>
     <Route path="/friends" component={Friends}/>
+    <Route path="/:user" component={UserTimeline}/>
     <Route path="*" component={Main}/>
   </div>
 );

@@ -1,13 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router';
 import fbApp from './fbApp';
+import CONSTANTS from './constants';
 
 require('./header.css');
 
 var Header = React.createClass({
   getInitialState() {
     this.uid = fbApp.auth().currentUser.uid;
-    this.pagesInHistoryRef = fbApp.database().ref('userStats/' + this.uid + '/pagesInHistory');
+    this.pagesInHistoryRef = fbApp.database().ref(CONSTANTS.USER_STATS_REF + '/' + this.uid + '/pagesInHistory');
     return {
       pagesInHistory: 0
     };
