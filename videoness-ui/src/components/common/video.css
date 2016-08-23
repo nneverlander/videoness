@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot');
+  src:  url('fonts/icomoon.eot') format('embedded-opentype'),
+  url('fonts/icomoon.ttf') format('truetype'),
+  url('fonts/icomoon.woff') format('woff'),
+  url('fonts/icomoon.svg') format('svg');
+}
+
 .vid-video-inst-container {
   width: 100%;
   position: relative;
@@ -94,5 +103,28 @@
   display: none;
 }
 
+.vid-glyphicon {
+  position: relative;
+  top: 1px;
+  font-family: 'icomoon';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
 
+.vid-glyphicon-group:before {
+  content: "\e900";
+}
 
+.vid-sidebar-privacy-icon {
+  font-size: 32px;
+  color: #B40101;
+  display: block;
+  cursor: pointer;
+}
+
+.vid-sidebar-privacy-icon:hover {
+  color: white;
+  transform: scale(1.1);
+}

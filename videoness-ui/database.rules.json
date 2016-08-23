@@ -35,13 +35,17 @@
           "a": {
             ".read": "auth != null",
             ".write": "auth != null"
-          }
-        },
-        ".indexOn": [
-          "uid",
-          "location",
-          "timestamp"
-        ]
+          },
+          ".indexOn": [
+            "fbShares",
+            "twtrShares",
+            "plays",
+            "favs",
+            "timelineAdds",
+            "location",
+            "timestamp"
+          ]
+        }
       }
     }
   }
