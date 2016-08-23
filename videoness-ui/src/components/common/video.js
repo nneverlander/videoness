@@ -57,7 +57,7 @@ var VideoInst = React.createClass({
       this.userVidRef.child('privacy').set(CONSTANTS.PRIVACY_ME);
     }
   },
-  toggleAddToTimeline() { //todo updte metadata on twitter share
+  toggleAddToTimeline() {
     if (this.state.isAddedToTimeline) {
       this.userVidRef.remove();
       this.vidMetadataRef.child('timelineAdds').once('value', (timelineAdds) => {
@@ -94,21 +94,24 @@ var VideoInst = React.createClass({
       });
     }
   },
-  shareOnTwitter(url) {
+  shareOnTwitter() { //todo not updating metadata on twitter share from web since twitter has no support for callbacks on web
     var width = screen.width / 3;
     var height = screen.height / 3;
     var left = (screen.width / 2) - (width / 2);
     var top = (screen.height / 2) - (height / 2);
-    var popup = window.open("https://twitter.com/share?url=https://videoness-68f59.firebaseapp.com&text=This is awesome!", "", "width=" + width + ", height=" + height + ", top=" + top + ", left=" + left);
+    var hashtags = 'videoness,awesome';
+    var popup = window.open("https://twitter.com/share?hashtags=" + hashtags + "&url=" + this.state.src + "&text=This is awesome! ", "", "width=" + width + ", height=" + height + ", top=" + top + ", left=" + left);
     if (window.focus) {
       popup.focus();
     }
   },
-  shareOnFB(url) {
+  shareOnFB() {
     FB.ui({
       method: 'share',
       display: 'popup',
-      href: 'https://videoness-68f59.firebaseapp.com/'
+      quote: 'This is awesome!',
+      hashtag: '#videoness',
+      href: this.state.src
     }, (response) => {
       if (response && !response.error_code) {
         this.vidMetadataRef.child('fbShares').once('value', (fbShares) => {
@@ -123,7 +126,7 @@ var VideoInst = React.createClass({
       this.vidMetadataRef.child('plays').set(plays.val() + 1);
     });
   },
-  render() {
+  render() { //todo timeline adds check original privacy for fb and twitter share
     var src = this.state.src === '' ? this.props.src : this.state.src;
     return (
       <div className={this.state.hide ? "vid-hidden" : "vid-video-inst-container"}>
