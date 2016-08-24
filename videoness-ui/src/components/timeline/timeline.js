@@ -14,12 +14,11 @@ var Timeline = React.createClass({
     this.userStorageRef = fbApp.storage().ref(this.uid);
     this.lastScrollTop = 0; //for detecting scroll direction
     this.masterObj = {};
-    this.masterArray = [];
-    this.newlyAddedArray = [];
+    this.numNewlyAdded = 0;
     this.newVidsLastShown = 0;
     return {
       showNewVideosButton: false,
-      renderDataArray: []
+      renderDataObj: {}
     }
   },
   handleSnapshot(snapshot) {
@@ -69,19 +68,15 @@ var Timeline = React.createClass({
           addedAt: data[propName].addedAt,
           isNewlyAdded: data[propName].isNewlyAdded
         };
-        var tmp = {};
-        tmp[fileName] = renderDataObj;
         this.masterObj[fileName] = renderDataObj;
         if (data[propName].isNewlyAdded) {
-          this.newlyAddedArray.unshift(tmp);
-        } else {
-          this.masterArray.push(tmp);
+          this.numNewlyAdded++;
         }
         this.userStorageRef.child(fileName).getMetadata().then((metadata) => {
           var obj = this.masterObj[metadata.name];
           obj.src = metadata.downloadURLs[0]; //todo check if metadata has mp4 extension
           if (obj.isNewlyAdded) {
-            if (this.newlyAddedArray.length > CONSTANTS.NEWLY_ADDED_COUNT &&
+            if (this.numNewlyAdded > CONSTANTS.NEWLY_ADDED_COUNT &&
               (Date.now() - this.newVidsLastShown > CONSTANTS.SHOW_NEW_VIDS_LAST_SHOWN_DELAY)) { // todo maybe more intelligent criteria
               this.setState({showNewVideosButton: true}, (() => {
                 this.newVidsLastShown = Date.now();
@@ -92,7 +87,7 @@ var Timeline = React.createClass({
             }
           }
           else {
-            this.setState({renderDataArray: this.masterArray});
+            this.setState({renderDataObj: this.masterObj});
           }
         }).catch(function (error) {
           console.log(error.stack);
@@ -122,11 +117,8 @@ var Timeline = React.createClass({
   },
   showNewVideos() {
     this.setState({showNewVideosButton: false});
-    //add masterArray to newlyAddedArray
-    this.newlyAddedArray.push.apply(this.newlyAddedArray, this.masterArray);
-    this.masterArray = this.newlyAddedArray;
-    this.newlyAddedArray = [];
-    this.setState({renderDataArray: this.masterArray});
+    this.numNewlyAdded = 0;
+    this.setState({renderDataObj: this.masterObj});
   },
   pauseOtherVideos(index) {
     var allVideos = document.getElementsByTagName('video');
@@ -136,13 +128,14 @@ var Timeline = React.createClass({
     }
   },
   render() {
-    var videos = this.state.renderDataArray.map((videoInst, index) => {
-      var vidId = '';
-      var vidVal = {};
-      Object.getOwnPropertyNames(videoInst).forEach((propName) => {
-        vidId = propName;
-        vidVal = videoInst[propName];
-      });
+    var propNames = Object.getOwnPropertyNames(this.state.renderDataObj);
+    // sorting so that latest data is on top
+    propNames.sort((a, b) => {
+      return this.state.renderDataObj[a].addedAt - this.state.renderDataObj[b].addedAt;
+    });
+    var videos = propNames.map((propName, index) => {
+      var vidId = propName;
+      var vidVal = this.state.renderDataObj[propName];
       return (
         <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parentComp="timeline"
                    addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this, index)}/>

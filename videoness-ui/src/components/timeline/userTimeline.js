@@ -13,15 +13,13 @@ var UserTimeline = React.createClass({
     this.userVidRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/videos');
     this.userStorageRef = fbApp.storage().ref(this.uid);
     this.lastScrollTop = 0; //for detecting scroll direction
-    this.masterArray = [];
     this.masterObj = {};
     return {
       areFriends: false,
-      renderDataArray: []
+      renderDataObj: {}
     }
   },
   handleSnapshot(snapshot) {
-    var masterVideos = [];
     var data = snapshot.val();
     var propNames = Object.getOwnPropertyNames(data);
     // sorting so that latest data is on top
@@ -33,44 +31,38 @@ var UserTimeline = React.createClass({
         this.lastRetrievedChild = data[propName].addedAt;
       }
       //check privacy
-      var privacy = this.userVidRef.child('privacy');
-      if (privacy === CONSTANTS.PRIVACY_ME) {
-        return;
-      } else if (privacy === CONSTANTS.PRIVACY_FRIENDS && !this.state.areFriends) {
-        return;
-      }
-      var vid = {};
-      vid[propName] = data[propName];
-      masterVideos.push(vid);
-    });
-    this.getVideosFromStorage(masterVideos);
-  },
-  getVideosFromStorage(masterVideos) {
-    for (var i = 0, length = masterVideos.length; i < length; i++) {
-      var data = masterVideos[i];
-      Object.getOwnPropertyNames(data).forEach((propName) => { //there will only be one prop name - vidAuthor:::vidId
-        var vidAuthor = propName.split(CONSTANTS.SEPARATOR)[0];
-        var vidId = propName.split(CONSTANTS.SEPARATOR)[1];
-        var fileName = vidId + '.mp4';//todo remove mp4 extension
-        if (this.masterObj[fileName] != null) {
-          return; //already exists
+      this.userVidRef.child(propName).child('privacy').once('value', (privacy) => {
+        if (privacy.val() === CONSTANTS.PRIVACY_ME) {
+          return;
+        } else if (privacy.val() === CONSTANTS.PRIVACY_FRIENDS && !this.state.areFriends) {
+          return;
         }
-        var renderDataObj = {
-          author: vidAuthor,
-          addedAt: data[propName].addedAt
-        };
-        var tmp = {};
-        tmp[fileName] = renderDataObj;
-        this.masterObj[fileName] = renderDataObj;
-        this.masterArray.push(tmp);
-        this.userStorageRef.child(fileName).getMetadata().then((metadata) => {
-          this.masterObj[metadata.name].src = metadata.downloadURLs[0]; //todo check if metadata has mp4 extension
-          this.setState({renderDataArray: this.masterArray});
-        }).catch(function (error) {
-          console.log(error.stack);
-        });
+        var vid = {};
+        vid[propName] = data[propName];
+        this.getVideoFromStorage(vid);
       });
-    }
+    });
+  },
+  getVideoFromStorage(vid) {
+    Object.getOwnPropertyNames(vid).forEach((propName) => { //there will only be one prop name - vidAuthor:::vidId
+      var vidAuthor = propName.split(CONSTANTS.SEPARATOR)[0];
+      var vidId = propName.split(CONSTANTS.SEPARATOR)[1];
+      var fileName = vidId + '.mp4';//todo remove mp4 extension
+      if (this.masterObj[fileName] != null) {
+        return; //already exists
+      }
+      var renderDataObj = {
+        author: vidAuthor,
+        addedAt: vid[propName].addedAt
+      };
+      this.masterObj[fileName] = renderDataObj;
+      this.userStorageRef.child(fileName).getMetadata().then((metadata) => {
+        this.masterObj[metadata.name].src = metadata.downloadURLs[0]; //todo check if metadata has mp4 extension
+        this.setState({renderDataObj: this.masterObj});
+      }).catch(function (error) {
+        console.log(error.stack);
+      });
+    });
   },
   componentDidMount() {
     // check if friends
@@ -102,13 +94,14 @@ var UserTimeline = React.createClass({
     }
   },
   render() {
-    var videos = this.state.renderDataArray.map((videoInst, index) => {
-      var vidId = '';
-      var vidVal = {};
-      Object.getOwnPropertyNames(videoInst).forEach((propName) => {
-        vidId = propName;
-        vidVal = videoInst[propName];
-      });
+    var propNames = Object.getOwnPropertyNames(this.state.renderDataObj);
+    // sorting so that latest data is on top
+    propNames.sort((a, b) => {
+      return this.state.renderDataObj[a].addedAt - this.state.renderDataObj[b].addedAt;
+    });
+    var videos = propNames.map((propName, index) => {
+      var vidId = propName;
+      var vidVal = this.state.renderDataObj[propName];
       return (
         <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parentComp="userTimeline"
                    addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this, index)}/>

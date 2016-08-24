@@ -15,15 +15,17 @@ var VideoInst = React.createClass({
     this.vidMetadataRef_a = fbApp.database().ref(CONSTANTS.VID_METADATA_REF + '/' + this.props.vidAuthor + '/' + this.props.vidId.split('.')[0] + '/a');
     this.vidMetadataRef_w = fbApp.database().ref(CONSTANTS.VID_METADATA_REF + '/' + this.props.vidAuthor + '/' + this.props.vidId.split('.')[0] + '/w');
     this.settingsRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/settings');
+    this.userRuntimeStatsRef = fbApp.database().ref(CONSTANTS.USER_STATS_REF + '/' + this.uid + '/runtime');
+    this.isOwn = (this.uid === this.props.vidAuthor);
     return {
       src: '',
       hide: false,
       isFav: false,
       isAddedToTimeline: false,
-      isOwn: false,
       privacy: CONSTANTS.PRIVACY_ME,
       origPrivacy: CONSTANTS.PRIVACY_ME,
-      showCantChangePrivacyMessage: false
+      showCantChangePrivacyMessage: false,
+      showShareButtons: true
     }
   },
   componentDidMount() {
@@ -34,12 +36,17 @@ var VideoInst = React.createClass({
       this.setState({isFav: snapshot.val()});
     });
     this.vidMetadataRef_w.child('privacy').on('value', (snapshot) => {
-      this.setState({origPrivacy: snapshot.val()});
+      this.setState({origPrivacy: snapshot.val()}, () => {
+        if (!(this.isOwn || (this.state.origPrivacy === CONSTANTS.PRIVACY_ALL))) {
+          this.setState({showShareButtons: false});
+        }
+      });
     });
     this.userVidRef.child('privacy').on('value', (snapshot) => {
       this.setState({privacy: snapshot.val()});
     });
-    this.setState({isOwn: (this.uid === this.props.vidAuthor)});
+    // todo mounted component signifies activity - better criteria in the future
+    this.userRuntimeStatsRef.child('lastActive').set(Date.now());
   },
   componentWillReceiveProps(nextProps) {
     if (nextProps.src != null && this.state.src !== nextProps.src) {
@@ -58,15 +65,11 @@ var VideoInst = React.createClass({
     //todo do these ops concurrently in case of owner
     //todo: can explicitly set state in case server does not respond; this.setState({privacy: CONSTANTS.PRIVACY_FRIENDS});
     if (this.state.privacy === CONSTANTS.PRIVACY_ME) {
-      if (this.state.isOwn) {
+      if (this.isOwn) {
         this.userVidRef.child('privacy').set(CONSTANTS.PRIVACY_FRIENDS);
         this.vidMetadataRef_w.child('privacy').set(CONSTANTS.PRIVACY_FRIENDS);
       } else {
-        this.setState({showCantChangePrivacyMessage: true}, () => {
-          setTimeout(() => {
-            this.setState({showCantChangePrivacyMessage: false});
-          }, 2000); // hide after 2 seconds
-        });
+        this.setState({showCantChangePrivacyMessage: true});
       }
     } else if (this.state.privacy === CONSTANTS.PRIVACY_FRIENDS) {
       this.userVidRef.child('privacy').set(CONSTANTS.PRIVACY_ALL);
@@ -119,7 +122,7 @@ var VideoInst = React.createClass({
       }
     } else {
       this.favRef.set({"addedAt": -1 * Date.now()});
-      this.vidMetadataRef_a.child('favs').once('value', (favs) => {
+      this.vidMetadataRef_a.child('favs').once('value', (favs) => { //todo concurrency issues when multiple users fav; same case for timeline adds?
         this.vidMetadataRef_a.child('favs').set(favs.val() + 1);
       });
     }
@@ -144,8 +147,13 @@ var VideoInst = React.createClass({
       href: this.state.src
     }, (response) => {
       if (response && !response.error_code) {
+        //update vid metadata
         this.vidMetadataRef_a.child('fbShares').once('value', (fbShares) => {
           this.vidMetadataRef_a.child('fbShares').set(fbShares.val() + 1);
+        });
+        // update user runtime stats
+        this.userRuntimeStatsRef.child('fbShares').once('value', (fbShares) => {
+          this.userRuntimeStatsRef.child('fbShares').set(fbShares.val() + 1);
         });
       }
     });
@@ -165,16 +173,16 @@ var VideoInst = React.createClass({
         </Video>
         <div className="vid-overlay-sidebar">
           <img data-toggle="tooltip" data-placement="left" title="share on facebook"
-               className="vid-overlay-sidebar-button" src="/img/fb.png" onClick={this.shareOnFB}/>
+               className={this.state.showShareButtons ? "vid-overlay-sidebar-button" : "vid-hidden"} src="/img/fb.png" onClick={this.shareOnFB}/>
           <img data-toggle="tooltip" data-placement="left" title="share on twitter"
-               className="vid-overlay-sidebar-button" src="/img/twitter.png" onClick={this.shareOnTwitter}/>
+               className={this.state.showShareButtons ? "vid-overlay-sidebar-button" : "vid-hidden"} src="/img/twitter.png" onClick={this.shareOnTwitter}/>
           <i data-toggle="tooltip" data-placement="left" title={this.state.isFav ? "remove from favs" : "add to favs"}
              onClick={this.toggleFav}
              className={this.state.isFav ? "glyphicon glyphicon-heart vid-sidebar-faved-icon" : "glyphicon glyphicon-heart vid-sidebar-fav-icon"}></i>
           <i data-toggle="tooltip" data-placement="left"
              title={this.state.isAddedToTimeline ? "remove from timeline" : "add to timeline"}
              onClick={this.toggleAddToTimeline}
-             className={this.state.isOwn ? "vid-hidden" : this.state.isAddedToTimeline ? "glyphicon glyphicon-minus vid-sidebar-minus-icon" : "glyphicon glyphicon-plus vid-sidebar-plus-icon"}></i>
+             className={this.isOwn ? "vid-hidden" : this.state.isAddedToTimeline ? "glyphicon glyphicon-minus vid-sidebar-minus-icon" : "glyphicon glyphicon-plus vid-sidebar-plus-icon"}></i>
           <i data-toggle="tooltip" data-placement="left"
              title={this.state.showCantChangePrivacyMessage ? "You cannot change the privacy of this video since the author set its privacy to his friends only" : this.state.privacy == "me" ? "only you can see this" : this.state.privacy == 'friends' ? "shared with friends" : "shared with everyone"}
              onClick={this.changePrivacy}

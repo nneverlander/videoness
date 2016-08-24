@@ -12,17 +12,15 @@ var Favs = React.createClass({
     this.favRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/favs');
     this.userStorageRef = fbApp.storage().ref(this.uid);
     this.masterObj = {};
-    this.masterArray = [];
     return {
-      renderDataArray: []
+      renderDataObj: {}
     }
   },
   componentDidMount() {
-    this.favRef.orderByChild('addedAt').limitToFirst(3).on('child_added', this.handleSnapshot);
+    this.favRef.orderByChild('addedAt').limitToFirst(3).once('value', this.handleSnapshot);
     window.addEventListener('scroll', this.handleScroll);
   },
   componentWillUnmount() {
-    this.favRef.off();
     window.removeEventListener('scroll', this.handleScroll);
   },
   handleScroll(evt) {
@@ -30,19 +28,11 @@ var Favs = React.createClass({
     if (Math.abs(this.lastScrollTop - scrollTop) <= 50) // sensitivity of scroll in px
       return;
     if (scrollTop > this.lastScrollTop) { //down scroll
-      this.favRef.orderByChild('addedAt').startAt(this.lastRetrievedChild).limitToFirst(6).once('value', this.handleSnapshotOnScroll);
+      this.favRef.orderByChild('addedAt').startAt(this.lastRetrievedChild).limitToFirst(6).once('value', this.handleSnapshot);
     }
     this.lastScrollTop = scrollTop;
   },
   handleSnapshot(snapshot) {
-    var masterVideos = [];
-    var vid = {};
-    vid[snapshot.getKey()] = snapshot.val();
-    this.lastRetrievedChild = snapshot.val().addedAt;
-    masterVideos.push(vid);
-    this.getVideosFromStorage(masterVideos);
-  },
-  handleSnapshotOnScroll(snapshot) {
     var masterVideos = [];
     var data = snapshot.val();
     var propNames = Object.getOwnPropertyNames(data);
@@ -72,17 +62,13 @@ var Favs = React.createClass({
         }
         var renderDataObj = {
           author: vidAuthor,
-          addedAt: data[propName].addedAt,
-          isNewlyAdded: data[propName].isNewlyAdded
+          addedAt: data[propName].addedAt
         };
-        var tmp = {};
-        tmp[fileName] = renderDataObj;
         this.masterObj[fileName] = renderDataObj;
-        this.masterArray.push(tmp);
         this.userStorageRef.child(fileName).getMetadata().then((metadata) => {
           var obj = this.masterObj[metadata.name];
           obj.src = metadata.downloadURLs[0]; //todo check if metadata has mp4 extension
-          this.setState({renderDataArray: this.masterArray});
+          this.setState({renderDataObj: this.masterObj});
         }).catch(function (error) {
           console.log(error.stack);
         });
@@ -97,13 +83,14 @@ var Favs = React.createClass({
     }
   },
   render() {
-    var videos = this.state.renderDataArray.map((videoInst, index) => {
-      var vidId = '';
-      var vidVal = {};
-      Object.getOwnPropertyNames(videoInst).forEach((propName) => {
-        vidId = propName;
-        vidVal = videoInst[propName];
-      });
+    var propNames = Object.getOwnPropertyNames(this.state.renderDataObj);
+    // sorting so that latest data is on top
+    propNames.sort((a, b) => {
+      return this.state.renderDataObj[a].addedAt - this.state.renderDataObj[b].addedAt;
+    });
+    var videos = propNames.map((propName, index) => {
+      var vidId = propName;
+      var vidVal = this.state.renderDataObj[propName];
       return (
         <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parentComp="favs"
                    addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this,index)}/>

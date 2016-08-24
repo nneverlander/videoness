@@ -153,21 +153,26 @@
   },
   "EyMjTg-userStats-1ODwDA": {
     "lIOgT8uvUAeRRupQaAr0tzCqaWx1": {
-      "lastActive": 123,
-      "lastVideoPosted": 123,
-      "avgVideosCreatedPerDay": 123,
-      "pagesInHistory": 120,
-      "daysSinceJoining": 120,
-      "numFriends": 20,
-      "numVideosCreated": 40,
-      "numFollowed": 20,
-      "numFavs": 20,
-      "numSharesOnFb": 20,
-      "numSharesOnTwtr": 20,
-      "numTimelineAdds": 20,
-      "numPrivateVideos": 20,
-      "numPublicVideos": 10,
-      "numFriendsOnlyVideos": 10
+      "runtime" :{
+        "lastActive": 123,
+        "fbShares": 20,
+        "twtrShares": 20
+      },
+      "historic": {
+        "lastVideoPosted": 123,
+        "avgVideosCreatedPerDay": 123,
+        "pagesInHistory": 120, //to have a page in history atleast two videos need to be posted per day
+        "daysSinceJoining": 120,
+        "numFriends": 20,
+        "numFollowed": 20,
+        "numFollowers": 0, // makes sense for businesses
+        "numVideosCreated": 40,
+        "numTimelineAdds": 20,
+        "numFavs": 20,
+        "numPrivateVideos": 20,
+        "numPublicVideos": 10,
+        "numFriendsOnlyVideos": 10
+      }
     }
   }
 }

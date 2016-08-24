@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'icomoon';
+  font-family: 'glyphicons halflings';
   src:  url('fonts/icomoon.eot');
   src:  url('fonts/icomoon.eot') format('embedded-opentype'),
   url('fonts/icomoon.ttf') format('truetype'),
@@ -106,7 +106,7 @@
 .vid-glyphicon {
   position: relative;
   top: 1px;
-  font-family: 'icomoon';
+  font-family: 'glyphicons halflings';
   font-style: normal;
   font-weight: 400;
   line-height: 1;
