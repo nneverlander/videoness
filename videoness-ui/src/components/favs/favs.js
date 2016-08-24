@@ -105,7 +105,7 @@ var Favs = React.createClass({
         vidVal = videoInst[propName];
       });
       return (
-        <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parent="favs"
+        <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parentComp="favs"
                    addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this,index)}/>
       );
     });

@@ -144,7 +144,7 @@ var Timeline = React.createClass({
         vidVal = videoInst[propName];
       });
       return (
-        <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parent="timeline"
+        <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parentComp="timeline"
                    addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this, index)}/>
       );
     });

@@ -123,7 +123,6 @@ function initApp() {
 
 window.onload = function () {
   initApp();
-  $('[data-toggle="tooltip"]').tooltip();
 };
 
 module.exports = Index;
