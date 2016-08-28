@@ -54,6 +54,31 @@
   margin-top: 12px;
 }
 
+.vid-name-photo {
+  position: absolute;
+  top: 5px;
+  bottom: 0;
+  right: 100px;
+  margin: auto;
+  float: right;
+  z-index: 6;
+}
+
+.vid-name-photo:hover {
+  background-color: darkred;
+  text-decoration: none;
+}
+
+.vid-name-photo img {
+  width: 40px;
+  height: auto;
+}
+
+.vid-name-photo span {
+  color: white;
+  margin-left: 5px;
+}
+
 .vid-user-settings {
   position: absolute;
   top: 0;
@@ -153,5 +178,11 @@
 
   .vid-filler {
     height: 70px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .vid-name-photo {
+    display: none;
   }
 }

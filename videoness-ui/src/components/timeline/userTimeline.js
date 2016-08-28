@@ -11,7 +11,6 @@ var UserTimeline = React.createClass({
     this.uid = this.props.params.user;
     this.lastRetrievedChild = Number.NEGATIVE_INFINITY;
     this.userVidRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/videos');
-    this.userStorageRef = fbApp.storage().ref(this.uid);
     this.lastScrollTop = 0; //for detecting scroll direction
     this.masterObj = {};
     return {
@@ -51,12 +50,11 @@ var UserTimeline = React.createClass({
       if (this.masterObj[fileName] != null) {
         return; //already exists
       }
-      var renderDataObj = {
+      this.masterObj[fileName] = {
         author: vidAuthor,
         addedAt: vid[propName].addedAt
       };
-      this.masterObj[fileName] = renderDataObj;
-      this.userStorageRef.child(fileName).getMetadata().then((metadata) => {
+      fbApp.storage().ref(vidAuthor).child(fileName).getMetadata().then((metadata) => {
         this.masterObj[metadata.name].src = metadata.downloadURLs[0]; //todo check if metadata has mp4 extension
         this.setState({renderDataObj: this.masterObj});
       }).catch(function (error) {
@@ -93,6 +91,9 @@ var UserTimeline = React.createClass({
       allVideos[i].pause();
     }
   },
+  setCurrDate(date) {
+    this.setState({currDate: date});
+  },
   render() {
     var propNames = Object.getOwnPropertyNames(this.state.renderDataObj);
     // sorting so that latest data is on top
@@ -102,16 +103,18 @@ var UserTimeline = React.createClass({
     var videos = propNames.map((propName, index) => {
       var vidId = propName;
       var vidVal = this.state.renderDataObj[propName];
+      var addedAt = new Date(-1*vidVal.addedAt).customFormat('#MMM# #DD# #YYYY#');
       return (
         <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parentComp="userTimeline"
-                   addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this, index)}/>
+                   addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this, index)}
+                   setCurrDate={this.setCurrDate.bind(this, addedAt)}/>
       );
     });
     return (
       <div>
         <Header/>
         <div className="vid-date-box">
-          <p>13 aug 2016</p>
+          <p>{this.state.currDate}</p>
         </div>
         {videos}
       </div>

@@ -11,7 +11,6 @@ var Timeline = React.createClass({
     this.uid = fbApp.auth().currentUser.uid;
     this.lastRetrievedChild = Number.NEGATIVE_INFINITY;
     this.userVidRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/videos');
-    this.userStorageRef = fbApp.storage().ref(this.uid);
     this.lastScrollTop = 0; //for detecting scroll direction
     this.masterObj = {};
     this.numNewlyAdded = 0;
@@ -63,16 +62,15 @@ var Timeline = React.createClass({
         if (this.masterObj[fileName] != null) {
           return; //already exists
         }
-        var renderDataObj = {
+        this.masterObj[fileName] = {
           author: vidAuthor,
           addedAt: data[propName].addedAt,
           isNewlyAdded: data[propName].isNewlyAdded
         };
-        this.masterObj[fileName] = renderDataObj;
         if (data[propName].isNewlyAdded) {
           this.numNewlyAdded++;
         }
-        this.userStorageRef.child(fileName).getMetadata().then((metadata) => {
+        fbApp.storage().ref(vidAuthor).child(fileName).getMetadata().then((metadata) => {
           var obj = this.masterObj[metadata.name];
           obj.src = metadata.downloadURLs[0]; //todo check if metadata has mp4 extension
           if (obj.isNewlyAdded) {
@@ -127,6 +125,9 @@ var Timeline = React.createClass({
       allVideos[i].pause();
     }
   },
+  setCurrDate(date) {
+    this.setState({currDate: date});
+  },
   render() {
     var propNames = Object.getOwnPropertyNames(this.state.renderDataObj);
     // sorting so that latest data is on top
@@ -136,16 +137,18 @@ var Timeline = React.createClass({
     var videos = propNames.map((propName, index) => {
       var vidId = propName;
       var vidVal = this.state.renderDataObj[propName];
+      var addedAt = new Date(-1*vidVal.addedAt).customFormat('#MMM# #DD# #YYYY#');
       return (
         <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parentComp="timeline"
-                   addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this, index)}/>
+                   addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this, index)}
+                   setCurrDate={this.setCurrDate.bind(this, addedAt)}/>
       );
     });
     return (
       <div>
         <Header/>
         <div className="vid-date-box">
-          <p>13 aug 2016</p>
+          <p>{this.state.currDate}</p>
         </div>
         <button onClick={this.showNewVideos}
                 className={this.state.showNewVideosButton ? 'btn btn-default vid-show-new-vids-button': 'vid-hidden'}>

@@ -8,7 +8,15 @@ require('./header.css');
 var Header = React.createClass({
   getInitialState() {
     this.uid = fbApp.auth().currentUser.uid;
-    this.pagesInHistoryRef = fbApp.database().ref(CONSTANTS.USER_STATS_REF + '/' + this.uid + '/pagesInHistory');
+    this.pagesInHistoryRef = fbApp.database().ref(CONSTANTS.USER_STATS_REF + '/' + this.uid + '/historic/pagesInHistory');
+    this.photoUrl = '/img/profile.jpg';
+    this.displayName = 'gobbledy gook';
+    if (window.userInfo.photoUrl != null) {
+      this.photoUrl = window.userInfo.photoUrl;
+    }
+    if (window.userInfo.displayName != null) {
+      this.displayName = window.userInfo.displayName;
+    }
     return {
       pagesInHistory: 0
     };
@@ -29,7 +37,7 @@ var Header = React.createClass({
       <div>
         <nav className="navbar navbar-fixed-top vid-sticky-header">
           <div className="vid-home">
-            <Link to="/">Home</Link>
+            <Link to="/">Logo here</Link>
           </div>
           <div className="vid-search-input">
             <div className="input-group">
@@ -44,6 +52,10 @@ var Header = React.createClass({
           <div className="vid-pages-in-history">
             <p>pages in history: {this.state.pagesInHistory}</p>
           </div>
+          <Link to="/timeline" className="vid-name-photo">
+            <img src={this.photoUrl}/>
+            <span>{this.displayName}</span>
+          </Link>
           <div className="vid-user-settings">
             <div className="vid-menu-icon-container">
               <div className="vid-menu-icon"></div>

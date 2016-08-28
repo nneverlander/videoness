@@ -4,15 +4,16 @@ import fbApp from '../common/fbApp';
 import VideoInst from '../common/video';
 import CONSTANTS from '../common/constants';
 
+require('../common/common');
 require('./favs.css');
 
 var Favs = React.createClass({
   getInitialState() {
     this.uid = fbApp.auth().currentUser.uid;
     this.favRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/favs');
-    this.userStorageRef = fbApp.storage().ref(this.uid);
     this.masterObj = {};
     return {
+      currDate: '',
       renderDataObj: {}
     }
   },
@@ -60,12 +61,11 @@ var Favs = React.createClass({
         if (this.masterObj[fileName] != null) {
           return; //already exists
         }
-        var renderDataObj = {
+        this.masterObj[fileName] = {
           author: vidAuthor,
           addedAt: data[propName].addedAt
         };
-        this.masterObj[fileName] = renderDataObj;
-        this.userStorageRef.child(fileName).getMetadata().then((metadata) => {
+        fbApp.storage().ref(vidAuthor).child(fileName).getMetadata().then((metadata) => {
           var obj = this.masterObj[metadata.name];
           obj.src = metadata.downloadURLs[0]; //todo check if metadata has mp4 extension
           this.setState({renderDataObj: this.masterObj});
@@ -82,6 +82,9 @@ var Favs = React.createClass({
       allVideos[i].pause();
     }
   },
+  setCurrDate(date) {
+    this.setState({currDate: date});
+  },
   render() {
     var propNames = Object.getOwnPropertyNames(this.state.renderDataObj);
     // sorting so that latest data is on top
@@ -91,16 +94,18 @@ var Favs = React.createClass({
     var videos = propNames.map((propName, index) => {
       var vidId = propName;
       var vidVal = this.state.renderDataObj[propName];
+      var addedAt = new Date(-1*vidVal.addedAt).customFormat('#MMM# #DD# #YYYY#');
       return (
         <VideoInst key={vidVal.author + vidId} vidAuthor={vidVal.author} vidId={vidId} parentComp="favs"
-                   addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this,index)}/>
+                   addedAt={vidVal.addedAt} src={vidVal.src} onPlay={this.pauseOtherVideos.bind(this,index)}
+                   setCurrDate={this.setCurrDate.bind(this, addedAt)}/>
       );
     });
     return (
       <div>
         <Header/>
         <div className="vid-date-box">
-          <p>13 aug 2016</p>
+          <p>{this.state.currDate}</p>
         </div>
         {videos}
       </div>

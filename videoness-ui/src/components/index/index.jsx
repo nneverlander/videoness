@@ -9,6 +9,7 @@ import Login from '../login/login';
 import fbApp from '../common/fbApp';
 import routes from '../common/routes';
 import {Router, browserHistory} from 'react-router';
+import CONSTANTS from '../common/constants';
 
 require('react-html5video/dist/ReactHtml5Video.css');
 require('./index.css');
@@ -108,6 +109,16 @@ var Index = React.createClass({
 function initApp() {
   fbApp.auth().onAuthStateChanged((user) => {
     if (user) {
+      window.userInfo = user;
+      var name = user.displayName;
+      var email = user.email;
+      var uid = user.uid;
+      var photoUrl = user.photoURL;
+      fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + uid + '/email').once('value', ((snapshot) => {
+        if (snapshot.val() == null) { //user profile doesn't exist
+          fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/'  + uid).set({"name": name, "email": email, "photoUrl": photoUrl});
+        }
+      }));
       ReactDOM.render(
         <Router history={browserHistory} routes={routes}/>,
         document.getElementById('container')

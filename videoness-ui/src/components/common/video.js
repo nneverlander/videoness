@@ -6,7 +6,10 @@ import CONSTANTS from './constants';
 require('react-html5video/dist/ReactHtml5Video.css');
 require('./video.css');
 
+var CVM = require("react-component-visibility");
+
 var VideoInst = React.createClass({
+  mixins: [CVM],
   getInitialState() {
     this.uid = fbApp.auth().currentUser.uid;
     //todo filename exension crap and split
@@ -17,6 +20,9 @@ var VideoInst = React.createClass({
     this.settingsRef = fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/settings');
     this.userRuntimeStatsRef = fbApp.database().ref(CONSTANTS.USER_STATS_REF + '/' + this.uid + '/runtime');
     this.isOwn = (this.uid === this.props.vidAuthor);
+    this.divId = this.props.vidAuthor + this.props.vidId.split('.')[0]; //todo file extension
+    this.divPosFromTop = 0;
+    this.lastScrollTop = 0;
     return {
       src: '',
       hide: false,
@@ -29,6 +35,13 @@ var VideoInst = React.createClass({
     }
   },
   componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+    // initial date
+    this.divPosFromTop = $('#' + this.divId).offset().top - $(document).scrollTop();
+    if (this.divPosFromTop >= 0 && this.divPosFromTop < 200) {
+      this.props.setCurrDate();
+    }
+
     this.userVidRef.child('addedAt').on('value', (snapshot) => {
       this.setState({isAddedToTimeline: snapshot.val()});
     });
@@ -56,10 +69,21 @@ var VideoInst = React.createClass({
     }
   },
   componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
     this.userVidRef.child('addedAt').off();
     this.userVidRef.child('privacy').off();
     this.vidMetadataRef_w.child('privacy').off();
     this.favRef.off();
+  },
+  handleScroll() {
+    var scrollTop = $(document).scrollTop();
+    if (Math.abs(this.lastScrollTop - scrollTop) <= 50) // sensitivity of scroll in px
+      return;
+    this.divPosFromTop = $('#' + this.divId).offset().top - scrollTop;
+    if (this.divPosFromTop >= 0 && this.divPosFromTop < 200) {
+      this.props.setCurrDate();
+    }
+    this.lastScrollTop = scrollTop;
   },
   changePrivacy() {
     //todo do these ops concurrently in case of owner
@@ -167,15 +191,17 @@ var VideoInst = React.createClass({
   render() { //todo timeline adds check original privacy for fb and twitter share
     var src = this.state.src === '' ? this.props.src : this.state.src;
     return (
-      <div className={this.state.hide ? "vid-hidden" : "vid-video-inst-container"}>
+      <div id={this.divId} className={this.state.hide ? "vid-hidden" : "vid-video-inst-container"}>
         <Video key={src} className="vid-video-inst" controls loop onPlay={this.handlePlay}>
           <source src={src}/>
         </Video>
         <div className="vid-overlay-sidebar">
           <img data-toggle="tooltip" data-placement="left" title="share on facebook"
-               className={this.state.showShareButtons ? "vid-overlay-sidebar-button" : "vid-hidden"} src="/img/fb.png" onClick={this.shareOnFB}/>
+               className={this.state.showShareButtons ? "vid-overlay-sidebar-button" : "vid-hidden"} src="/img/fb.png"
+               onClick={this.shareOnFB}/>
           <img data-toggle="tooltip" data-placement="left" title="share on twitter"
-               className={this.state.showShareButtons ? "vid-overlay-sidebar-button" : "vid-hidden"} src="/img/twitter.png" onClick={this.shareOnTwitter}/>
+               className={this.state.showShareButtons ? "vid-overlay-sidebar-button" : "vid-hidden"}
+               src="/img/twitter.png" onClick={this.shareOnTwitter}/>
           <i data-toggle="tooltip" data-placement="left" title={this.state.isFav ? "remove from favs" : "add to favs"}
              onClick={this.toggleFav}
              className={this.state.isFav ? "glyphicon glyphicon-heart vid-sidebar-faved-icon" : "glyphicon glyphicon-heart vid-sidebar-fav-icon"}></i>

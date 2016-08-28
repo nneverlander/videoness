@@ -128,7 +128,6 @@ var Login = React.createClass({
         } else if (errorCode === 'auth/user-not-found') {
           firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.pass).then((result) => {
             $(".vid-spinner-bg").hide();
-            this.updateUserProfile(result);
             $("#loginModal").modal("hide");
           }).catch((error) => {
             $(".vid-spinner-bg").hide();
@@ -152,7 +151,6 @@ var Login = React.createClass({
     var provider = new firebase.auth.FacebookAuthProvider();
     // provider.addScope('user_birthday'); todo more scopes like birthday
     firebase.auth().signInWithPopup(provider).then((result) => {
-      this.updateUserProfile(result.user);
       $("#loginModal").modal("hide");
     }).catch((error) => {
       if (error.code === 'auth/account-exists-with-different-credential') {
@@ -166,17 +164,6 @@ var Login = React.createClass({
         console.error(error);
       }
     });
-  },
-  updateUserProfile(user) {
-    var name = user.displayName;
-    var email = user.email;
-    var uid = user.uid;
-    var photoUrl = user.photoURL;
-    fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + uid + '/email').once('value', ((snapshot) => {
-      if (snapshot.val() == null) { //user profile doesn't exist
-        fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/'  + uid).set({"name": name, "email": email, "photoUrl": photoUrl});
-      }
-    }));
   },
   showForgotPasswordBox() {
     this.setState({

@@ -87,7 +87,7 @@ var Friends = React.createClass({
         friendId = propName;
         friendVal = friend[propName];
       });
-      var addedAt = new Date(friendVal.addedAt).customFormat('#MMM# #DD# #YYYY#');
+      var addedAt = new Date(-1*friendVal.addedAt).customFormat('#MMM# #DD# #YYYY#');
       return (
         <Link key={friendId} to={'/' + friendId}><Friend parent="friends" name={friendVal.name}
                                                 photoUrl={friendVal.photoUrl} addedAt={addedAt}/></Link>
