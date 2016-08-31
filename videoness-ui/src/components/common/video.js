@@ -6,10 +6,7 @@ import CONSTANTS from './constants';
 require('react-html5video/dist/ReactHtml5Video.css');
 require('./video.css');
 
-var CVM = require("react-component-visibility");
-
 var VideoInst = React.createClass({
-  mixins: [CVM],
   getInitialState() {
     this.uid = fbApp.auth().currentUser.uid;
     //todo filename exension crap and split

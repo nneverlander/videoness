@@ -109,7 +109,6 @@ var Index = React.createClass({
 function initApp() {
   fbApp.auth().onAuthStateChanged((user) => {
     if (user) {
-      window.userInfo = user;
       var name = user.displayName;
       var email = user.email;
       var uid = user.uid;
@@ -137,4 +136,3 @@ window.onload = function () {
 };
 
 module.exports = Index;
-

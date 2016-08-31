@@ -2,9 +2,6 @@
  * Created by adi on 7/17/16.
  */
 import React from 'react';
-import ReactDOM from 'react-dom';
-import fbApp from '../common/fbApp';
-import CONSTANTS from '../common/constants';
 
 require('../common/spinner.css');
 require('./login.css');
@@ -25,10 +22,10 @@ var Login = React.createClass({
       resetEmailNotFound: false
     };
   },
-  componentDidMount: function () {
+  componentDidMount() {
     $("#loginModal").on('hidden.bs.modal', this.handleHidden);
   },
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     $("#loginModal").off('hidden.bs.modal', this.handleHidden);
   },
   handleHidden() {

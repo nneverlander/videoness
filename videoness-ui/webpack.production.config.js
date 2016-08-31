@@ -5,7 +5,7 @@ var dist_dir = path.resolve(__dirname, 'dist');
 var src_dir = path.resolve(__dirname, 'src');
 
 var config = {
-  //devtool: "source-map",
+  devtool: "cheap-module-source-map",
   entry: [
     src_dir + '/components/index/index.jsx',
   ],
@@ -30,7 +30,7 @@ var config = {
     new ExtractTextPlugin('Videoness.css'),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': '"production"'
+        'NODE_ENV': JSON.stringify('production')
       }
     })
   ]

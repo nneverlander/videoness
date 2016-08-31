@@ -9,19 +9,19 @@ var Header = React.createClass({
   getInitialState() {
     this.uid = fbApp.auth().currentUser.uid;
     this.pagesInHistoryRef = fbApp.database().ref(CONSTANTS.USER_STATS_REF + '/' + this.uid + '/historic/pagesInHistory');
-    this.photoUrl = '/img/profile.jpg';
-    this.displayName = 'gobbledy gook';
-    if (window.userInfo.photoUrl != null) {
-      this.photoUrl = window.userInfo.photoUrl;
-    }
-    if (window.userInfo.displayName != null) {
-      this.displayName = window.userInfo.displayName;
-    }
     return {
-      pagesInHistory: 0
+      pagesInHistory: 0,
+      photoUrl = '/img/profile.jpg',
+      displayName = 'gobbledy gook'
     };
   },
   componentWillMount: function() {
+    fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/name').once('value', (snapshot) => {
+      this.setState({displayName: snapshot.val()});
+    });
+    fbApp.database().ref(CONSTANTS.USER_PROFILE_REF + '/' + this.uid + '/photoUrl').once('value', (snapshot) => {
+      this.setState({photoUrl: snapshot.val()});
+    });
     this.pagesInHistoryRef.on('value', (snapshot) => {
       this.setState({pagesInHistory: snapshot.val()});
     });
@@ -53,8 +53,8 @@ var Header = React.createClass({
             <p>pages in history: {this.state.pagesInHistory}</p>
           </div>
           <Link to="/timeline" className="vid-name-photo">
-            <img src={this.photoUrl}/>
-            <span>{this.displayName}</span>
+            <img src={this.state.photoUrl}/>
+            <span>{this.state.displayName}</span>
           </Link>
           <div className="vid-user-settings">
             <div className="vid-menu-icon-container">
