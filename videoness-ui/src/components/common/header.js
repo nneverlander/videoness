@@ -11,8 +11,8 @@ var Header = React.createClass({
     this.pagesInHistoryRef = fbApp.database().ref(CONSTANTS.USER_STATS_REF + '/' + this.uid + '/historic/pagesInHistory');
     return {
       pagesInHistory: 0,
-      photoUrl = '/img/profile.jpg',
-      displayName = 'gobbledy gook'
+      photoUrl: '/img/profile.jpg',
+      displayName: 'gobbledy gook'
     };
   },
   componentWillMount: function() {
@@ -37,7 +37,7 @@ var Header = React.createClass({
       <div>
         <nav className="navbar navbar-fixed-top vid-sticky-header">
           <div className="vid-home">
-            <Link to="/">Logo here</Link>
+            <Link to="/">Vid</Link>
           </div>
           <div className="vid-search-input">
             <div className="input-group">

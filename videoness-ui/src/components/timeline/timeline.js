@@ -16,6 +16,7 @@ var Timeline = React.createClass({
     this.numNewlyAdded = 0;
     this.newVidsLastShown = 0;
     return {
+      currDate: '',
       showNewVideosButton: false,
       renderDataObj: {}
     }
